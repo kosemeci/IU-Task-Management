@@ -1,6 +1,6 @@
 .header {
     height: min-content;
-    background-color: aqua;
+    background-color: rgb(27, 184, 158);
     display: flex;
     justify-content: space-between;
 }
@@ -11,6 +11,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: inline-block;
     font-size: x-large;
+    cursor: pointer;
 }
 
 .header-body {
@@ -26,4 +27,5 @@
 .header-icon {
     margin: 0 2px;
     font-size: 32px !important;
+    cursor: pointer;
 }

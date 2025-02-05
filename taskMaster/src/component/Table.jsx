@@ -33,7 +33,9 @@ function Row(props) {
 
     return (
         <React.Fragment>
-            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}
+                style={{ cursor: 'pointer' }}
+            >
                 <TableCell style={{ padding: "2px", textAlign: 'center' }}>
                     <IconButton
                         aria-label="expand row"
@@ -132,8 +134,8 @@ const rows = [
 
 export default function CollapsibleTable() {
     return (
-        <TableContainer component={Paper}>
-            <Table aria-label="collapsible table">
+        <TableContainer component={Paper} >
+            <Table aria-label="collapsible table" sx={{ backgroundColor: '#fbf9f9' }} >
                 <TableHead>
                     <TableRow>
                         <TableCell />
