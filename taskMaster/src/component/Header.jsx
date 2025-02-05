@@ -15,7 +15,7 @@ function Header() {
     return (
         <>
             <div className='header'>
-                <h2 className='header-title'>Task Manager</h2>
+                <h2 className='header-title' onClick={() => handleNavigate('/')}>Task Manager</h2>
                 <div className='header-body'>
                     <CasesOutlinedIcon className='header-icon'
                         onClick={() => handleNavigate('/')} />
