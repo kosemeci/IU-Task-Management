@@ -28,6 +28,7 @@
     height: 100%;
     border-left: 1px solid black;
     border-radius: 4px;
+    padding: 5px;
 }
 
 .user-choose-list li {
@@ -39,11 +40,15 @@
 }
 
 .user-choose-list ul :hover {
-    background-color: rgb(255, 231, 187);
+    background-color: rgb(252, 246, 234);
     cursor: pointer;
 }
 
 .user-column-title {
     height: 30px;
-    margin: 30px 15px 5px;
+    margin: 30px 5px 5px;
+}
+
+.selectedTitle {
+    background-color: rgb(54, 214, 187);
 }
