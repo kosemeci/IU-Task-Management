@@ -1,0 +1,49 @@
+.user-container {
+    display: flex;
+    padding: 12% 8%;
+}
+
+.user-column {
+    text-align: left;
+    display: block;
+}
+
+.user-column:nth-child(1) {
+    flex: 1;
+    /* İlk sütun 2 birim genişliğinde */
+}
+
+.user-column:nth-child(2) {
+    margin-left: 8px;
+    flex: 2;
+    /* İkinci sütun 1 birim genişliğinde */
+}
+
+.user-choose-list ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.user-details {
+    height: 100%;
+    border-left: 1px solid black;
+    border-radius: 4px;
+}
+
+.user-choose-list li {
+    padding: 4px;
+    margin-bottom: 4px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 5px;
+
+}
+
+.user-choose-list ul :hover {
+    background-color: rgb(255, 231, 187);
+    cursor: pointer;
+}
+
+.user-column-title {
+    height: 30px;
+    margin: 30px 15px 5px;
+}
