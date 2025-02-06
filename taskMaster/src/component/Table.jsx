@@ -14,19 +14,12 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import '../css/table.css'
+import { useState, useEffect } from 'react';
+import axios from 'axios'
 
-function createData(id, title, createdDate, deadline, status, user, projectId, details) {
-    return {
-        id,
-        title,
-        createdDate,
-        deadline,
-        status,
-        user,
-        projectId,
-        details,
-    };
-}
+
+const BASE_URL = "http://localhost:8080/task-management/task/all";
+
 
 function Row(props) {
     const { row } = props;
@@ -47,12 +40,12 @@ function Row(props) {
                     </IconButton>
                 </TableCell>
                 <TableCell sx={{ maxWidth: 50, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.id}</TableCell>
-                <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.title}</TableCell>
+                <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.taskTitle}</TableCell>
                 <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.createdDate}</TableCell>
                 <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.deadline}</TableCell>
                 <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.status}</TableCell>
-                <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.user}</TableCell>
-                <TableCell sx={{ maxWidth: 50, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.projectId}</TableCell>
+                <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.user?.firstName}</TableCell>
+                <TableCell sx={{ maxWidth: 50, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.project?.projectId}</TableCell>
 
             </TableRow>
             <TableRow className='table-details'>
@@ -73,12 +66,12 @@ function Row(props) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableRow key={row.details.projectTitle}>
-                                        <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.projectTitle}</TableCell>
-                                        <TableCell sx={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.description}</TableCell>
-                                        <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.assignedDate}</TableCell>
-                                        <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.completionDate}</TableCell>
-                                        <TableCell sx={{ maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.userMail}</TableCell>
+                                    <TableRow key={row.project.projectTitle}>
+                                        <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.project.projectName}</TableCell>
+                                        <TableCell sx={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.description}</TableCell>
+                                        <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.assignedDate}</TableCell>
+                                        <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.completionDate}</TableCell>
+                                        <TableCell sx={{ maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.user?.mailAdress}</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -90,50 +83,18 @@ function Row(props) {
     );
 }
 
-Row.propTypes = {
-    row: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        createdDate: PropTypes.string.isRequired,
-        deadline: PropTypes.string.isRequired,
-        status: PropTypes.string.isRequired,
-        user: PropTypes.string.isRequired,
-        projectId: PropTypes.string.isRequired,
-        details: PropTypes.shape({
-            projectTitle: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
-            assignedDate: PropTypes.string.isRequired,
-            completionDate: PropTypes.string.isRequired,
-            userMail: PropTypes.string.isRequired,
-        }).isRequired,
-    }).isRequired,
-};
-
-const rows = [
-    createData('1', 'Task 1', '2025-01-01', '2025-01-12', 'In Progress', 'User A', 'P1', {
-        projectTitle: 'Project 1',
-        description: 'Description for task 1 asdsad a sdas dasd as d asdd as asdda sd as',
-        assignedDate: '2025-01-02',
-        completionDate: '2025-01-10',
-        userMail: 'userA@example.com'
-    }),
-    createData('2', 'Task 2', '2025-01-05', '2025-01-20', 'Completed', 'User B', 'P2', {
-        projectTitle: 'Project 2',
-        description: 'Description for task 2',
-        assignedDate: '2025-01-06',
-        completionDate: '2025-01-15',
-        userMail: 'userB@example.com'
-    }),
-    createData('3', 'Task 3', '2025-01-08', '2025-01-22', 'In Progress', 'User C', 'P3', {
-        projectTitle: 'Project 3',
-        description: 'Description for task 3',
-        assignedDate: '2025-01-09',
-        completionDate: '2025-01-18',
-        userMail: 'userC@example.com'
-    }),
-];
-
 export default function CollapsibleTable() {
+    const [taskList, setTaskList] = useState([]);
+    const getTaskList = async () => {
+        const response = await axios.get(BASE_URL);
+        setTaskList(response.data);
+        //console.log(response.data);
+        return response.data;
+    }
+    useEffect(() => {
+        getTaskList();
+    }, [])
+
     return (
         <TableContainer component={Paper} >
             <Table aria-label="collapsible table" sx={{ backgroundColor: '#fbf9f9' }} >
@@ -150,7 +111,7 @@ export default function CollapsibleTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
+                    {taskList.map((row) => (
                         <Row key={row.id} row={row} />
                     ))}
                 </TableBody>

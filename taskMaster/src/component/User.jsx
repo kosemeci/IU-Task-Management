@@ -1,19 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import '../css/user.css'
+import axios from 'axios'
 
 
+const BASE_URL = "https://jsonplaceholder.typicode.com/users";
+// const BASE_URL = "http://localhost:8080/task-management/task/all";
 
 
 function User() {
 
-  const [firstName, setFirstName] = useState('Ahmet');
-  const [lastName, setLastName] = useState('Demir');
+  const [username, setUsername] = useState('');
   const [title, setTitle] = useState('Bilgilerim');
   const [selectTitle, setSelectTitle] = useState(1);
+
+  const getUsers = async () => {
+    const response = await axios.get(BASE_URL);
+    setUsername(response.data.username)
+    console.log(response.data);
+  }
+
 
   useEffect(() => {
     console.log("Title updated.")
   }, [title])
+
+  useEffect(() => {
+    getUsers();
+  }, [])
 
   const chanceTitle = (newTitle, index) => {
     setTitle(newTitle);
@@ -23,7 +36,7 @@ function User() {
   return (
     <div className='user-container'>
       <div className="user-column column-1">
-        <h2>{firstName} {" " + lastName}</h2>
+        <h2>{username}</h2>
         <div className="user-choose-list">
           <ul>
             <li onClick={() => chanceTitle("Bilgilerim", 1)} className={selectTitle === 1 ? 'selectedTitle' : ''}>Bilgilerim</li>
