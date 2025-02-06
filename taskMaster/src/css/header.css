@@ -1,6 +1,6 @@
 .header {
     height: min-content;
-    background-color: rgb(27, 184, 158);
+    background-color: rgb(54, 214, 187);
     display: flex;
     justify-content: space-between;
 }
@@ -12,6 +12,7 @@
     display: inline-block;
     font-size: x-large;
     cursor: pointer;
+    font-weight: 600;
 }
 
 .header-body {

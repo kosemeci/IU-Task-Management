@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import '../css/table.css'
 
 function createData(id, title, createdDate, deadline, status, user, projectId, details) {
     return {
@@ -54,10 +55,10 @@ function Row(props) {
                 <TableCell sx={{ maxWidth: 50, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.projectId}</TableCell>
 
             </TableRow>
-            <TableRow>
+            <TableRow className='table-details'>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
+                        <Box sx={{ margin: 1 }} className='table-details-box'>
                             <Typography variant="h6" gutterBottom component="div">
                                 Task Details
                             </Typography>
@@ -73,11 +74,11 @@ function Row(props) {
                                 </TableHead>
                                 <TableBody>
                                     <TableRow key={row.details.projectTitle}>
-                                        <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.projectTitle}</TableCell>
-                                        <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.description}</TableCell>
+                                        <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.projectTitle}</TableCell>
+                                        <TableCell sx={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.description}</TableCell>
                                         <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.assignedDate}</TableCell>
                                         <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.completionDate}</TableCell>
-                                        <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.userMail}</TableCell>
+                                        <TableCell sx={{ maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.details.userMail}</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
