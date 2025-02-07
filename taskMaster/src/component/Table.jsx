@@ -28,7 +28,8 @@ function Row(props) {
     return (
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: 'pointer' }} onClick={() => setOpen(!open)}
+
             >
                 <TableCell style={{ padding: "2px", textAlign: 'center' }}>
                     <IconButton
@@ -87,29 +88,48 @@ function Row(props) {
 
 export default function CollapsibleTable() {
     const [taskList, setTaskList] = useState([]);
+    const [orderSelect, setOrderSelect] = useState('id');
     const getTaskList = async () => {
         const response = await axios.get(BASE_URL);
-        setTaskList(response.data);
-        console.log(response.data);
-        return response.data;
+        const sortedData = response.data.sort((a, b) => a.id - b.id);
+        setTaskList(sortedData);
+        return sortedData;
     }
     useEffect(() => {
         getTaskList();
     }, [])
 
+    const sortedList = (param) => {
+        setOrderSelect(param);
+    };
+    useEffect(() => {
+        setTaskList((prevList) =>
+            [...prevList].sort((a, b) =>
+                typeof a[orderSelect] === "string"
+                    ? a[orderSelect].localeCompare(b[orderSelect])
+                    : a[orderSelect] - b[orderSelect]
+            )
+        );
+    }, [orderSelect]);
+
     return (
         <TableContainer component={Paper} >
             <Table aria-label="collapsible table" sx={{ backgroundColor: '#fbf9f9' }} >
                 <TableHead>
-                    <TableRow>
+                    <TableRow className='order-table-row' onClick={(e) => sortedList(e.target.id)}>
                         <TableCell />
-                        <TableCell>ID</TableCell>
-                        <TableCell>Title</TableCell>
-                        <TableCell>Created Date</TableCell>
-                        <TableCell>Deadline</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell>User</TableCell>
-                        <TableCell>Project ID</TableCell>
+                        <TableCell style={{ textDecoration: orderSelect === 'id' ? "underline" : "none", cursor: "pointer" }}
+                            id={"id"}>ID</TableCell>
+                        <TableCell style={{ textDecoration: orderSelect === 'taskTitle' ? "underline" : "none", cursor: "pointer" }}
+                            id={"taskTitle"}>Title</TableCell>
+                        <TableCell style={{ textDecoration: orderSelect === 'createdDate' ? "underline" : "none", cursor: "pointer" }}
+                            id={"createdDate"}>Created Date</TableCell>
+                        <TableCell style={{ textDecoration: orderSelect === 'deadline' ? "underline" : "none", cursor: "pointer" }}
+                            id={"deadline"}>Deadline</TableCell>
+                        <TableCell style={{ textDecoration: orderSelect === 'status' ? "underline" : "none", cursor: "pointer" }}
+                            id={"status"}>Status</TableCell>
+                        <TableCell >User</TableCell>
+                        <TableCell >Project ID</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
