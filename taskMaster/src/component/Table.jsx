@@ -116,18 +116,18 @@ export default function CollapsibleTable() {
         <TableContainer component={Paper} >
             <Table aria-label="collapsible table" sx={{ backgroundColor: '#fbf9f9' }} >
                 <TableHead>
-                    <TableRow className='order-table-row' onClick={(e) => sortedList(e.target.id)}>
+                    <TableRow className='order-table-row' onClick={(e) => sortedList(e.target.dataset.param)}>
                         <TableCell />
                         <TableCell style={{ textDecoration: orderSelect === 'id' ? "underline" : "none", cursor: "pointer" }}
-                            id={"id"}>ID</TableCell>
+                            data-param="id">ID</TableCell>
                         <TableCell style={{ textDecoration: orderSelect === 'taskTitle' ? "underline" : "none", cursor: "pointer" }}
-                            id={"taskTitle"}>Title</TableCell>
+                            data-param="taskTitle">Title</TableCell>
                         <TableCell style={{ textDecoration: orderSelect === 'createdDate' ? "underline" : "none", cursor: "pointer" }}
-                            id={"createdDate"}>Created Date</TableCell>
+                            data-param="createdDate">Created Date</TableCell>
                         <TableCell style={{ textDecoration: orderSelect === 'deadline' ? "underline" : "none", cursor: "pointer" }}
-                            id={"deadline"}>Deadline</TableCell>
+                            data-param="deadline">Deadline</TableCell>
                         <TableCell style={{ textDecoration: orderSelect === 'status' ? "underline" : "none", cursor: "pointer" }}
-                            id={"status"}>Status</TableCell>
+                            data-param="status">Status</TableCell>
                         <TableCell >User</TableCell>
                         <TableCell >Project ID</TableCell>
                     </TableRow>
