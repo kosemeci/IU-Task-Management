@@ -1,3 +1,31 @@
 .task-container {
+    display: flex;
+    flex-direction: column;
     padding: 50px 15px;
+}
+
+.table-filter {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 15px 0;
+}
+
+.select-filter {
+    padding: 4px;
+    margin-right: 5px;
+    border: none;
+}
+
+.input-filter {
+    border: 1px solid rebeccapurple;
+    border-radius: 5px;
+    margin-right: 4px;
+}
+
+.button-filter {
+    background-color: #36d6bb;
+    border-radius: 5px;
+    border: none;
+    padding: 6px;
 }

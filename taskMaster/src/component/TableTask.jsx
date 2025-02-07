@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -45,7 +44,7 @@ function Row(props) {
                 <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.createdDate}</TableCell>
                 <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.deadline}</TableCell>
                 <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.status}</TableCell>
-                <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.user?.firstName}</TableCell>
+                <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.user ? row.user.firstName + " " + row.user.lastName : ""}</TableCell>
                 <TableCell sx={{ maxWidth: 50, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.project?.id}</TableCell>
 
             </TableRow>
