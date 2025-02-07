@@ -45,7 +45,7 @@ function Row(props) {
                 <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.deadline}</TableCell>
                 <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.status}</TableCell>
                 <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.user?.firstName}</TableCell>
-                <TableCell sx={{ maxWidth: 50, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.project?.projectId}</TableCell>
+                <TableCell sx={{ maxWidth: 50, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.project?.id}</TableCell>
 
             </TableRow>
             <TableRow className='table-details'>
@@ -60,6 +60,7 @@ function Row(props) {
                                     <TableRow>
                                         <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>Project Title</TableCell>
                                         <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>Description</TableCell>
+                                        <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>Priority</TableCell>
                                         <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>Assigned Date</TableCell>
                                         <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>Completion Date</TableCell>
                                         <TableCell sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}>User Email</TableCell>
@@ -67,8 +68,9 @@ function Row(props) {
                                 </TableHead>
                                 <TableBody>
                                     <TableRow key={row.project.projectTitle}>
-                                        <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.project.projectName}</TableCell>
+                                        <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.project?.projectName}</TableCell>
                                         <TableCell sx={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.description}</TableCell>
+                                        <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.priority}</TableCell>
                                         <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.assignedDate}</TableCell>
                                         <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.completionDate}</TableCell>
                                         <TableCell sx={{ maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.user?.mailAdress}</TableCell>
@@ -88,7 +90,7 @@ export default function CollapsibleTable() {
     const getTaskList = async () => {
         const response = await axios.get(BASE_URL);
         setTaskList(response.data);
-        //console.log(response.data);
+        console.log(response.data);
         return response.data;
     }
     useEffect(() => {
