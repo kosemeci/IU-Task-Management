@@ -85,13 +85,16 @@ function Row(props) {
     );
 }
 
-export default function CollapsibleTable() {
+export default function CollapsibleTable({ filterCriteria, filterValue }) {
     const [taskList, setTaskList] = useState([]);
     const [orderSelect, setOrderSelect] = useState('id');
+    const [allTasks, setAllTasks] = useState([]);
+
     const getTaskList = async () => {
         const response = await axios.get(BASE_URL);
         const sortedData = response.data.sort((a, b) => a.id - b.id);
         setTaskList(sortedData);
+        setAllTasks(sortedData);
         return sortedData;
     }
     useEffect(() => {
@@ -101,6 +104,7 @@ export default function CollapsibleTable() {
     const sortedList = (param) => {
         setOrderSelect(param);
     };
+
     useEffect(() => {
         setTaskList((prevList) =>
             [...prevList].sort((a, b) =>
@@ -110,6 +114,61 @@ export default function CollapsibleTable() {
             )
         );
     }, [orderSelect]);
+
+    const filterDataByCriteria = (task, filterCriteria, filterValue) => {
+        const value = String(task[filterCriteria]).toLowerCase();
+        return value.includes(filterValue.toLowerCase());
+    };
+
+    const filterByUserProperty = (task, property, filterValue) => {
+        if (task.user && task.user[property]) {
+            return String(task.user[property]).toLowerCase().includes(filterValue.toLowerCase());
+        }
+        return false;
+    };
+    const filterByUserFullName = (task, filterValue) => {
+        if (task.user) {
+            const fullName = `${task.user.firstName} ${task.user.lastName}`.toLowerCase();
+            return fullName.includes(filterValue.toLowerCase());
+        }
+        return false;
+    };
+
+    useEffect(() => {
+        //filtrelemeye göre task listesini güncelliyoruz
+        // console.log(filterCriteria);
+        // console.log(filterValue)
+        if (!filterCriteria || !filterValue) {
+            setTaskList(allTasks);
+        } else {
+            let filteredData;
+
+            switch (filterCriteria) {
+                case 'id':
+                    filteredData = allTasks.filter(task => {
+                        return String(task[filterCriteria]) === filterValue;
+                    });
+                    break;
+                case 'project_id':
+                    filteredData = allTasks.filter(task => {
+                        return String(task.project.id) === filterValue;
+                    });
+                    break;
+                case 'username':
+                    filteredData = allTasks.filter(task => filterByUserFullName(task, filterValue));
+                    break;
+                case 'mailAdress':
+                    filteredData = allTasks.filter(task => filterByUserProperty(task, 'mailAdress', filterValue));
+                    break;
+                default:
+                    filteredData = allTasks.filter(task => filterDataByCriteria(task, filterCriteria, filterValue));
+                    break;
+            }
+
+            setTaskList(filteredData);
+        }
+    }, [filterCriteria, filterValue, allTasks])
+
 
     return (
         <TableContainer component={Paper} >
