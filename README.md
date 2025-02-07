@@ -1,3 +1,3 @@
-/tasks
-![image](https://github.com/user-attachments/assets/eeb7a5ed-5119-4726-b6f0-f49394d650cd)
+/task page
+![image](https://github.com/user-attachments/assets/ec9a982e-0d7a-4205-9c46-8759d5f839c0)
 
