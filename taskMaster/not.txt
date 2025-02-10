@@ -1,0 +1,2 @@
+*http-agents -> ssl sertifa doğrulamalarını atlar
+httpOnly cookie -> daha güvenli token saklama

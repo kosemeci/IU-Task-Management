@@ -3,8 +3,8 @@ import '../css/user.css'
 import axios from 'axios'
 
 
-const BASE_URL = "https://jsonplaceholder.typicode.com/users";
-// const BASE_URL = "http://localhost:8080/task-management/task/all";
+// const BASE_URL = "https://jsonplaceholder.typicode.com/users";
+const BASE_URL = "http://localhost:8080/user-management/user/all";
 
 
 function User() {
@@ -14,11 +14,20 @@ function User() {
   const [selectTitle, setSelectTitle] = useState(1);
 
   const getUsers = async () => {
-    const response = await axios.get(BASE_URL);
-    setUsername(response.data.username)
-    console.log(response.data);
+    try {
+      const response = await axios.get(BASE_URL, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+        timeout: 10000
+      });
+      setUsername(response.data.username)
+      console.log(response.data);
+    } catch (error) {
+      console.log(error)
+    }
   }
-
 
   useEffect(() => {
     console.log("Title updated.")

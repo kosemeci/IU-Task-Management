@@ -1,20 +1,54 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "../css/login.css";
+import axios from 'axios'
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!email || !password) {
             setError("Please fill in all fields!");
             return;
         }
-        setError(""); // Hata mesajını temizle
-        console.log("Logged In:", { email, password });
-        // Burada API isteği yapabilirsiniz
+
+        setError("");
+
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/auth/login",
+                {
+                    mailAdress: email,
+                    password: password
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    timeout: 10000
+                }
+            );
+            const token = response.data;
+            console.log("Giriş başarılı:", token);
+            login({ email }, token)
+            // Başarılı giriş durumunda kullanıcıyı ana sayfaya yönlendir
+            navigate("/");
+
+        } catch (error) {
+            console.log(error)
+            if (error.response) {
+                setError(error.response.data);
+            } else {
+                setError("Bir hata oluştu, lütfen tekrar deneyin.");
+            }
+        }
     };
 
     return (
