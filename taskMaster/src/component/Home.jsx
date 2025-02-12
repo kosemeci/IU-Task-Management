@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
 import "../css/home.css";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
     const { user, logout } = useContext(AuthContext);
-
+    const navigate = useNavigate();
+    const handleLoginClick = () => {
+        navigate('/login');
+    }
     return (
         <div className="home-container">
             <header>
@@ -39,7 +43,7 @@ function Home() {
                     </>
                 ) : (
                     <>
-                        <button className="login-btn">🔑 Giriş Yap</button>
+                        <button className="login-btn" onClick={handleLoginClick}>🔑 Giriş Yap</button>
                         <button className="signup-btn">🆕 Kayıt Ol</button>
                     </>
                 )}

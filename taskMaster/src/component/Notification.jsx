@@ -1,11 +1,55 @@
-import React from 'react';
+import React from "react";
+import { Card, CardContent, Typography, Container, Grid, Chip } from "@mui/material";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+
+const notifications = [
+    {
+        id: 1,
+        time: "13 Şubat 2025 - 10:30",
+        type: "Bilgi",
+        description: "Yeni bir görev eklendi.",
+        color: "primary"
+    },
+    {
+        id: 2,
+        time: "13 Şubat 2025 - 12:00",
+        type: "Uyarı",
+        description: "Görev süresi yaklaşıyor.",
+        color: "warning"
+    },
+    {
+        id: 3,
+        time: "13 Şubat 2025 - 15:45",
+        type: "Hata",
+        description: "Görev tamamlanamadı.",
+        color: "error"
+    }
+];
 
 function Notification() {
     return (
-        <div>
-            <h1>Notification Page</h1>
-            <p>Welcome to the Notification Page!</p>
-        </div>
+        <Container maxWidth="md" sx={{ mt: 4 }}>
+            <Typography variant="h4" gutterBottom>
+                <NotificationsActiveIcon fontSize="large" sx={{ verticalAlign: "middle", mr: 1 }} />
+                Bildirimler
+            </Typography>
+
+            <Grid container spacing={3}>
+                {notifications.map((notif) => (
+                    <Grid item xs={12} key={notif.id}>
+                        <Card sx={{ backgroundColor: "#f5f5f5" }}>
+                            <CardContent>
+                                <Typography variant="subtitle2" color="textSecondary">
+                                    {notif.time}
+                                </Typography>
+                                <Chip label={notif.type} color={notif.color} sx={{ mt: 1, mb: 1 }} />
+                                <Typography variant="body1">{notif.description}</Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </Container>
     );
 }
 
