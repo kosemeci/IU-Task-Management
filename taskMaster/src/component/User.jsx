@@ -15,11 +15,13 @@ function User() {
 
   const getUsers = async () => {
     try {
+      // const token = localStorage.getItem('token');
       const response = await axios.get(BASE_URL, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
+          // "Authorization": `Bearer ${token}`
         },
+        withCredentials: true,
         timeout: 10000
       });
       setUsername(response.data.username)

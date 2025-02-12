@@ -89,17 +89,15 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
     const [taskList, setTaskList] = useState([]);
     const [orderSelect, setOrderSelect] = useState('id');
     const [allTasks, setAllTasks] = useState([]);
-
     const getTaskList = async () => {
         try {
             const response = await axios.get(BASE_URL, {
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    // "Authorization": `Bearer ${localStorage.getItem("token")}`
                 },
-                withCredentials: true
-                // timeout: 10000
-                //axiosRetry mekanizmasına bir bak
+                withCredentials: true,
+                timeout: 10000
             });
             console.log(response.data);
             const sortedData = response.data.sort((a, b) => a.id - b.id);

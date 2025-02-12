@@ -8,35 +8,35 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
+    // const [token, setToken] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem("user"));
-        const storedToken = localStorage.getItem("token");
-        if (storedUser && storedToken) {
+        // const storedToken = localStorage.getItem("token");
+        if (storedUser) {
             setUser(storedUser);
-            setToken(storedToken);
+            // setToken(storedToken);
         }
     }, []);
 
-    const login = (userData, authToken) => {
+    const login = (userData) => {
         setUser(userData);
-        setToken(authToken);
+        // setToken(authToken);
         localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("token", authToken);
+        // localStorage.setItem("token", authToken);
     }
 
     const logout = () => {
         setUser(null);
-        setToken(null);
+        // setToken(null);
         localStorage.removeItem("user");
-        localStorage.removeItem("token");
+        // localStorage.removeItem("token");
         navigate('/login');
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

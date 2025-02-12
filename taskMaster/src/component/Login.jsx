@@ -32,13 +32,12 @@ const Login = () => {
                     headers: {
                         "Content-Type": "application/json"
                     },
+                    withCredentials: true,
                     timeout: 10000
                 }
             );
-            const token = response.data;
-            console.log("Giriş başarılı:", token);
-            login({ email }, token)
-            // Başarılı giriş durumunda kullanıcıyı ana sayfaya yönlendir
+            console.log(response.data);
+            login({ email })
             navigate("/");
 
         } catch (error) {
