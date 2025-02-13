@@ -53,10 +53,56 @@ function User() {
 
   }
 
+  const renderPage = (number) => {
+    switch (number) {
+      case 1:
+        return (
+          <>
+            {user ? (
+              <div className='user-div'>
+                <p style={{ marginTop: 0 }}><strong>Ad Soyad:</strong> {username}</p>
+                <p><strong>Email:</strong> {user.mailAdress}</p>
+                <p><strong>Position:</strong> {user.position || "Belirtilmemiş"}</p>
+                <p><strong>Role:</strong> {user.role || "Belirtilmemiş"}</p>
+              </div>
+            ) : (
+              <p>Kullanıcı bilgileri yükleniyor...</p>
+            )}
+          </>
+        )
+      case 2:
+        return (
+          <>
+            {user.task ? (
+              user.task.map((taskItem, index) => (
+                <div key={index} className='task-div'>
+                  <p><strong>Task Id:</strong> {taskItem.id}</p>
+                  <p><strong>Task Title:</strong> {taskItem.taskTitle}</p>
+                  <p><strong>Description:</strong> {taskItem.description}</p>
+                  <p><strong>Status:</strong> {taskItem.status}</p>
+                  <p><strong>Priority:</strong> {taskItem.priority}</p>
+                  <p><strong>Created Date:</strong> {taskItem.createdDate}</p>
+                  <p><strong>Deadline:</strong> {taskItem.deadline}</p>
+                  <p><strong>Assigned Date:</strong> {taskItem.createdDate}</p>
+                  <p><strong>Completed Date:</strong> {taskItem.createdDate}</p>
+
+                </div>
+              ))
+            ) : (
+              <p>Henüz kullanıcıya atanan bir görev yok.</p>
+            )}
+          </>
+        );
+      default:
+        console.log("default");
+        break;
+    }
+  }
+
   return (
     <div className='user-container'>
-      <div className="user-column column-1">
-        <h2>{username}</h2>
+      <h2>{username}</h2>
+      <div className='user-info'>
         <div className="user-choose-list">
           <ul>
             <li onClick={() => chanceTitle("Bilgilerim", 1)} className={selectTitle === 1 ? 'selectedTitle' : ''}>Bilgilerim</li>
@@ -66,24 +112,10 @@ function User() {
             <li onClick={() => chanceTitle("Görev Güncelle", 4)} className={selectTitle === 4 ? 'selectedTitle' : ''}>Görev Güncelle</li>
           </ul>
         </div>
-      </div>
-      <div className="user-column column-2">
-        <p className='user-column-title'>{title}</p>
         <div className='user-details'>
-          {user ? (
-            <>
-              <p style={{ marginTop: 0 }}><strong>Ad Soyad:</strong> {username}</p>
-              <p><strong>Email:</strong> {user.mailAdress}</p>
-              <p><strong>Position:</strong> {user.position || "Belirtilmemiş"}</p>
-              <p><strong>Role:</strong> {user.role || "Belirtilmemiş"}</p>
-
-            </>
-          ) : (
-            <p>Kullanıcı bilgileri yükleniyor...</p>
-          )}
+          {renderPage(selectTitle)}
         </div>
       </div>
-
     </div>
   );
 }
