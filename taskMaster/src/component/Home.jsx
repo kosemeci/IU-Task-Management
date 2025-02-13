@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-    const { user, logout } = useContext(AuthContext);
+    const { mail, logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const handleLoginClick = () => {
         navigate('/login');
@@ -12,9 +12,9 @@ function Home() {
     return (
         <div className="home-container">
             <header>
-                {user && (
+                {mail && (
                     <>
-                        <p>👋 Hoş geldin, <b>{user.email}</b>!</p>
+                        <p>👋 Hoş geldin, <b>{mail}</b>!</p>
                     </>
                 )}
                 <p>Görevlerini kolayca yönet, öncelik belirle ve verimliliğini artır!</p>
@@ -36,7 +36,7 @@ function Home() {
             </section>
 
             <div className="cta-buttons">
-                {user ? (
+                {mail ? (
                     <>
                         <button className="dashboard-btn">🚀 Görevlerine Git</button>
                         <button className="logout-btn" onClick={logout}>Çıkış Yap</button>

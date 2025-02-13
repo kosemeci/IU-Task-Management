@@ -10,6 +10,7 @@ const Login = () => {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const { login } = useContext(AuthContext);
+    const [userId, setUserId] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,11 +34,28 @@ const Login = () => {
                         "Content-Type": "application/json"
                     },
                     withCredentials: true,
-                    timeout: 10000
+                    timeout: 15000
                 }
             );
             console.log(response.data);
-            login({ email })
+
+
+            if (response.data) {
+                const responseId = await axios.get(
+                    "http://localhost:8080/auth/fetch/id",
+                    {
+                        params: { mail: email },
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        withCredentials: true,
+                        timeout: 15000
+                    }
+                );
+                setUserId(responseId.data);
+                login({ email, userId: responseId.data });
+            }
+
             navigate("/");
 
         } catch (error) {

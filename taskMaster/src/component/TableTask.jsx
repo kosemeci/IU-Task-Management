@@ -15,6 +15,9 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import '../css/table.css'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
 const BASE_URL = "http://localhost:8080/task-management/task/all";
@@ -89,8 +92,12 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
     const [taskList, setTaskList] = useState([]);
     const [orderSelect, setOrderSelect] = useState('id');
     const [allTasks, setAllTasks] = useState([]);
+    const { userId } = useContext(AuthContext);
+    const navigate = useNavigate('');
     const getTaskList = async () => {
         try {
+            if (!userId) navigate('/login'); // userId yoksa API isteği yapma
+
             const response = await axios.get(BASE_URL, {
                 headers: {
                     "Content-Type": "application/json",

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Card, CardContent, Typography, Container, Grid, Chip } from "@mui/material";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const notifications = [
     {
@@ -27,6 +29,13 @@ const notifications = [
 ];
 
 function Notification() {
+    useEffect(() => {
+        if (!userId) navigate('/login'); // userId yoksa API isteği yapma
+    })
+
+    const { userId } = useContext(AuthContext);
+    const navigate = useNavigate('');
+
     return (
         <Container maxWidth="md" sx={{ mt: 4 }}>
             <Typography variant="h4" gutterBottom>
