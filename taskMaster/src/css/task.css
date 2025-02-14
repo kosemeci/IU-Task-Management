@@ -30,3 +30,27 @@
     padding: 6px;
     cursor: pointer;
 }
+
+.choose-body {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px;
+}
+
+.task-button {
+    background-color: #3498db;
+    /* Mavi tonunda buton */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    margin-left: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.task-button:hover {
+    background-color: #2980b9;
+    /* Hover efekti */
+}

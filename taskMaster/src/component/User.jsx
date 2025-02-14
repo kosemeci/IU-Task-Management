@@ -74,22 +74,36 @@ function User() {
         return (
           <>
             {user.task ? (
-              user.task.map((taskItem, index) => (
-                <div key={index} className='task-div'>
-                  <p><strong>Task Id:</strong> {taskItem.id}</p>
-                  <p><strong>Task Title:</strong> {taskItem.taskTitle}</p>
-                  <p><strong>Description:</strong> {taskItem.description}</p>
-                  <p><strong>Status:</strong> {taskItem.status}</p>
-                  <p><strong>Priority:</strong> {taskItem.priority}</p>
-                  <p><strong>Created Date:</strong> {taskItem.createdDate}</p>
-                  <p><strong>Deadline:</strong> {taskItem.deadline}</p>
-                  <p><strong>Assigned Date:</strong> {taskItem.createdDate}</p>
-                  <p><strong>Completed Date:</strong> {taskItem.createdDate}</p>
+              user.task.sort((a, b) => a.id - b.id)
+                .map((taskItem, index) => (
+                  <div key={index} className='task-div'>
+                    <p><strong>Id:</strong> {taskItem.id}</p>
+                    <p><strong>Task Title:</strong> {taskItem.taskTitle}</p>
+                    <p><strong>Description:</strong> {taskItem.description}</p>
+                    <p><strong>Status:</strong> {taskItem.status}</p>
+                    <p><strong>Priority:</strong> {taskItem.priority}</p>
+                    <p><strong>Created Date:</strong> {taskItem.createdDate}</p>
+                    <p><strong>Deadline:</strong> {taskItem.deadline}</p>
+                    <p><strong>Assigned Date:</strong> {taskItem.createdDate}</p>
+                    <p><strong>Completed Date:</strong> {taskItem.createdDate}</p>
 
-                </div>
-              ))
+                  </div>
+                ))
             ) : (
               <p>Henüz kullanıcıya atanan bir görev yok.</p>
+            )}
+          </>
+        );
+      case 3:
+        return (
+          <>
+            {user.task ? (
+              user.task.map((taskItem, index) => (
+                <p>hello</p>
+              ))
+
+            ) : (
+              <p>hello2</p>
             )}
           </>
         );

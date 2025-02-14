@@ -80,11 +80,22 @@ function Row(props) {
                                     </TableRow>
                                 </TableBody>
                             </Table>
+                            <TableRow className='choose-body'>
+                                <TableCell sx={{ textAlign: 'right', padding: '8px' }}>
+                                    {row.status == 'PENDING' ? (
+                                        <>
+                                            <button className="task-button">Görevi Seç</button>
+                                        </>
+                                    ) : (
+                                        <button className="task-button">Görevi Düzenle</button>
+                                    )}
+                                </TableCell>
+                            </TableRow>
                         </Box>
                     </Collapse>
                 </TableCell>
             </TableRow>
-        </React.Fragment>
+        </React.Fragment >
     );
 }
 
@@ -210,7 +221,9 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
                 </TableHead>
                 <TableBody>
                     {taskList.map((row) => (
-                        <Row key={row.id} row={row} />
+                        <Row key={row.id} row={row} >
+                        </Row>
+
                     ))}
                 </TableBody>
             </Table>
