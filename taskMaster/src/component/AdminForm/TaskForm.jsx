@@ -1,5 +1,5 @@
 import { useState } from "react";
-import '../../css/admin.css'; // CSS dosyanı ekliyoruz
+import '../../css/admin.css';
 
 function TaskForm() {
     const [task, setTask] = useState({

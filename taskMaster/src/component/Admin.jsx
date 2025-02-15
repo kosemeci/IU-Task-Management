@@ -1,5 +1,7 @@
 import { useState } from "react";
 import TaskForm from "./AdminForm/TaskForm";
+import UserForm from "./AdminForm/UserForm";
+
 import "../css/admin.css"
 
 function AdminPanel() {
@@ -10,8 +12,8 @@ function AdminPanel() {
         switch (activeTab) {
             case "tasks":
                 return <TaskForm />;
-            case "users":
-                return <div><h3>Kullanıcı Yönetimi</h3><p>Burada kullanıcıları yönetebilirsiniz.</p></div>;
+            case "recordUser":
+                return <UserForm />
             case "editTask":
                 return <div><h3>Task Düzenleme</h3><p>Burada görevleri düzenleyebilirsiniz.</p></div>;
             case "projects":
@@ -27,14 +29,15 @@ function AdminPanel() {
             <div className="admin-sidebar">
                 <h2 className="admin-title">⚙️ Admin Panel</h2>
                 <ul>
-                    <li className={activeTab === "tasks" ? "active" : ""} onClick={() => setActiveTab("tasks")}>📌 Task Yönetimi</li>
-                    <li className={activeTab === "users" ? "active" : ""} onClick={() => setActiveTab("users")}>👤 Kullanıcı Yönetimi</li>
+                    <li className={activeTab === "task" ? "active" : ""} onClick={() => setActiveTab("tasks")}>📌 Task Oluştur</li>
+                    <li className={activeTab === "recordUser" ? "active" : ""} onClick={() => setActiveTab("users")}>👤 Yeni Kayıt</li>
                     <li className={activeTab === "editTask" ? "active" : ""} onClick={() => setActiveTab("editTask")}>✏️ Task Düzenle</li>
+                    <li className={activeTab === "editUser" ? "active" : ""} onClick={() => setActiveTab("tasks")}>👤 Kullanıcı Düzenle</li>
                     <li className={activeTab === "projects" ? "active" : ""} onClick={() => setActiveTab("projects")}>📁 Projeler</li>
+                    <li className={activeTab === "newProject" ? "active" : ""} onClick={() => setActiveTab("projects")}>📁 Proje Oluştur</li>
                 </ul>
             </div>
 
-            {/* Ana İçerik */}
             <div className="admin-content">
                 {renderContent()}
             </div>
