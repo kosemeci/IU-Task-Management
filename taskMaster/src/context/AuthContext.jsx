@@ -16,6 +16,11 @@ const AuthProvider = ({ children }) => {
     //     }
     // }, []);
 
+    useEffect(() => {
+        if (role == 'ADMIN') navigate('/Admin');
+        else navigate('/')
+    }, [userId, role])
+
     const login = ({ email, userId, role }) => {
         setMail(email);  // Sadece maili set et
         setUserId(userId);  // userId'yi sadece state'te tut

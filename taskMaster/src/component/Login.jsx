@@ -56,8 +56,6 @@ const Login = () => {
                 login({ email, userId: responseUser.data.id, role: responseUser.data.role });
             }
 
-            navigate("/");
-
         } catch (error) {
             console.log(error)
             if (error.response) {
