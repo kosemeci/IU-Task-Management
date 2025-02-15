@@ -16,66 +16,65 @@ function TaskForm() {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-4">📌 Yeni Task Oluştur</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="task-form-container">
+            <h2 className="task-form-title">📌 Yeni Task Oluştur</h2>
+            <form onSubmit={handleSubmit} className="task-form">
 
                 {/* Task Başlığı */}
-                <div>
-                    <label className="block text-gray-700 font-semibold">Task Başlığı:</label>
+                <div className="form-group">
+                    <label className="form-label">Task Başlığı:</label>
                     <input
                         type="text"
                         placeholder="Örn: Web API geliştirme"
                         value={task.title}
                         onChange={(e) => setTask({ ...task, title: e.target.value })}
-                        className="border border-gray-300 p-2 w-full rounded"
+                        className="form-input"
                         required
                     />
                 </div>
 
                 {/* Öncelik (Priority) */}
-                <div>
-                    <label className="block text-gray-700 font-semibold">Öncelik:</label>
+                <div className="form-group">
+                    <label className="form-label">Öncelik:</label>
                     <select
                         value={task.priority}
                         onChange={(e) => setTask({ ...task, priority: e.target.value })}
-                        className="border border-gray-300 p-2 w-full rounded"
+                        className="form-input"
                         required
                     >
-                        <option value="Düşük">Düşük</option>
-                        <option value="Normal">Normal</option>
-                        <option value="Yüksek">Yüksek</option>
-                        <option value="Acil">Acil</option>
+                        <option value="Düşük">LOW</option>
+                        <option value="Normal">MEDIUM</option>
+                        <option value="Yüksek">HIGH</option>
                     </select>
                 </div>
 
                 {/* Açıklama (Description) */}
-                <div>
-                    <label className="block text-gray-700 font-semibold">Açıklama:</label>
+                <div className="form-group">
+                    <label className="form-label">Açıklama:</label>
                     <textarea
                         placeholder="Görev detaylarını giriniz..."
                         value={task.description}
                         onChange={(e) => setTask({ ...task, description: e.target.value })}
-                        className="border border-gray-300 p-2 w-full rounded"
+                        className="form-input textarea"
                         rows="3"
                         required
                     ></textarea>
                 </div>
 
                 {/* Son Tarih (Deadline) */}
-                <div>
-                    <label className="block text-gray-700 font-semibold">Son Tarih:</label>
+                <div className="form-group">
+                    <label className="form-label">Son Tarih:</label>
                     <input
                         type="date"
                         value={task.deadline}
                         onChange={(e) => setTask({ ...task, deadline: e.target.value })}
-                        className="border border-gray-300 p-2 w-full rounded"
+                        className="form-input"
                         required
                     />
                 </div>
 
                 {/* Kaydet Butonu */}
-                <button type="submit" className="bg-blue-600 text-white p-2 rounded w-full hover:bg-blue-700 transition">
+                <button type="submit" className="submit-button">
                     Kaydet
                 </button>
 

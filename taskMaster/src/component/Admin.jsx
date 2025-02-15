@@ -1,35 +1,45 @@
 import { useState } from "react";
 import TaskForm from "./AdminForm/TaskForm";
 import "../css/admin.css"
-// import UserForm from "./UserForm";
-// import TaskList from "./TaskList";
-// import ProjectList from "./ProjectList";
 
-function AdminPage() {
-    const [activeTab, setActiveTab] = useState("tasks"); // Varsayılan sekme
+function AdminPanel() {
+    const [activeTab, setActiveTab] = useState("tasks");
+
+    // İçerik bileşenlerini dinamik olarak çağırma
+    const renderContent = () => {
+        switch (activeTab) {
+            case "tasks":
+                return <TaskForm />;
+            case "users":
+                return <div><h3>Kullanıcı Yönetimi</h3><p>Burada kullanıcıları yönetebilirsiniz.</p></div>;
+            case "editTask":
+                return <div><h3>Task Düzenleme</h3><p>Burada görevleri düzenleyebilirsiniz.</p></div>;
+            case "projects":
+                return <div><h3>Projeler</h3><p>Burada projeleri görüntüleyebilirsiniz.</p></div>;
+            default:
+                return <TaskForm />;
+        }
+    };
 
     return (
         <div className="admin-container">
-            {/* Sidebar */}
-            <div className="">
-                <h2 className="">Admin Panel</h2>
+            {/* Sidebar - Sol Menü */}
+            <div className="admin-sidebar">
+                <h2 className="admin-title">⚙️ Admin Panel</h2>
                 <ul>
-                    <li className="cursor-pointer p-2 hover:bg-gray-700" onClick={() => setActiveTab("tasks")}>📌 Task Yönetimi</li>
-                    <li className="cursor-pointer p-2 hover:bg-gray-700" onClick={() => setActiveTab("users")}>👤 Kullanıcı Yönetimi</li>
-                    <li className="cursor-pointer p-2 hover:bg-gray-700" onClick={() => setActiveTab("editTask")}>✏️ Task Düzenle</li>
-                    <li className="cursor-pointer p-2 hover:bg-gray-700" onClick={() => setActiveTab("projects")}>📁 Projeler</li>
+                    <li className={activeTab === "tasks" ? "active" : ""} onClick={() => setActiveTab("tasks")}>📌 Task Yönetimi</li>
+                    <li className={activeTab === "users" ? "active" : ""} onClick={() => setActiveTab("users")}>👤 Kullanıcı Yönetimi</li>
+                    <li className={activeTab === "editTask" ? "active" : ""} onClick={() => setActiveTab("editTask")}>✏️ Task Düzenle</li>
+                    <li className={activeTab === "projects" ? "active" : ""} onClick={() => setActiveTab("projects")}>📁 Projeler</li>
                 </ul>
             </div>
 
             {/* Ana İçerik */}
-            <div className="w-3/4 p-5">
-                {activeTab === "tasks" && <TaskForm />}
-                {/* {activeTab === "users" && <UserForm />}
-        {activeTab === "editTask" && <TaskList />}
-        {activeTab === "projects" && <ProjectList />} */}
+            <div className="admin-content">
+                {renderContent()}
             </div>
         </div>
     );
 }
 
-export default AdminPage;
+export default AdminPanel;
