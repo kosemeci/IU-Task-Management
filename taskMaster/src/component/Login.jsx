@@ -41,7 +41,7 @@ const Login = () => {
 
 
             if (response.data) {
-                const responseId = await axios.get(
+                const responseUser = await axios.get(
                     "http://localhost:8080/auth/fetch/id",
                     {
                         params: { mail: email },
@@ -52,8 +52,8 @@ const Login = () => {
                         timeout: 15000
                     }
                 );
-                setUserId(responseId.data);
-                login({ email, userId: responseId.data });
+                // console.log(responseUser.data.id);
+                login({ email, userId: responseUser.data.id, role: responseUser.data.role });
             }
 
             navigate("/");

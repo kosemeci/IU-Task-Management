@@ -27,7 +27,7 @@ function User() {
           "Content-Type": "application/json",
         },
         withCredentials: true,
-        timeout: 10000
+        timeout: 30000
       });
       const userData = response.data.data;
       console.log(userData)

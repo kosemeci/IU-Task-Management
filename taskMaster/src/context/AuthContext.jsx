@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const [mail, setMail] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [role, setRole] = useState(null);
     const navigate = useNavigate();
 
     // useEffect(() => {
@@ -15,21 +16,21 @@ const AuthProvider = ({ children }) => {
     //     }
     // }, []);
 
-    const login = ({ email, userId }) => {
+    const login = ({ email, userId, role }) => {
         setMail(email);  // Sadece maili set et
         setUserId(userId);  // userId'yi sadece state'te tut
-        localStorage.setItem("user", JSON.stringify(email));  // Maili localStorage'a kaydet
+        setRole(role);
     };
 
     const logout = () => {
         setMail(null);
         setUserId(null);  // userId'yi de sıfırla
-        localStorage.removeItem("user");  // Maili kaldır
+        setRole(null);
         navigate('/login');
     };
 
     return (
-        <AuthContext.Provider value={{ mail, userId, login, logout }}>
+        <AuthContext.Provider value={{ mail, userId, role, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

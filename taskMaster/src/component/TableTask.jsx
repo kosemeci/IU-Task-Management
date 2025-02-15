@@ -26,6 +26,37 @@ const BASE_URL = "http://localhost:8080/task-management/task/all";
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
+    const { userId } = useContext(AuthContext);
+
+
+    const renderTaskAction = (status, taskId) => {
+        switch (status) {
+            case 'PENDING':
+                return <button className="task-button" onClick={() => chooseTask(taskId)}>Görevi Al</button>
+            case 'IN_PROGRESS':
+                return <button className="task-button">Görevi Tamamla</button>
+            case 'FAILED':
+                return <p>*Görev başarısızlıkla sonuçlandı.</p>
+            case 'COMPLETED':
+                return <p>*Görev başarıyla sonuçlandı.</p>
+            default:
+                return <p>hello world</p>
+        }
+    }
+
+    const chooseTask = async (taskId) => {
+        try {
+            const response = await axios.put(`http://localhost:8080/user-management/user/choose/task?userId=${userId}&taskId=${taskId}`,
+                {
+                    withCredentials: true,
+                    timeout: 25000
+                });
+            console.log(response.data);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <React.Fragment>
@@ -70,7 +101,7 @@ function Row(props) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableRow key={row.project.projectTitle}>
+                                    <TableRow key={row.project?.id}>
                                         <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.project?.projectName}</TableCell>
                                         <TableCell sx={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.description}</TableCell>
                                         <TableCell sx={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>{row.priority}</TableCell>
@@ -80,17 +111,16 @@ function Row(props) {
                                     </TableRow>
                                 </TableBody>
                             </Table>
-                            <TableRow className='choose-body'>
-                                <TableCell sx={{ textAlign: 'right', padding: '8px' }}>
-                                    {row.status == 'PENDING' ? (
-                                        <>
-                                            <button className="task-button">Görevi Seç</button>
-                                        </>
-                                    ) : (
-                                        <button className="task-button">Görevi Düzenle</button>
-                                    )}
-                                </TableCell>
-                            </TableRow>
+                            <Table>
+                                <TableBody>
+                                    <TableRow className='task-action' >
+                                        <TableCell sx={{ textAlign: 'right', padding: '8px' }} >
+                                            {renderTaskAction(row.status, row.id)}
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+
                         </Box>
                     </Collapse>
                 </TableCell>
@@ -148,7 +178,6 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
         const value = String(task[filterCriteria]).toLowerCase();
         return value.includes(filterValue.toLowerCase());
     };
-
     const filterByUserProperty = (task, property, filterValue) => {
         if (task.user && task.user[property]) {
             return String(task.user[property]).toLowerCase().includes(filterValue.toLowerCase());
