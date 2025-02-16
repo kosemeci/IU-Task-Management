@@ -20,7 +20,6 @@ function TaskForm() {
             <h2 className="form-title">📌 Create New Task</h2>
             <form onSubmit={handleSubmit} className="task-form">
 
-                {/* Task Title */}
                 <div className="form-group">
                     <label className="form-label">Task Title:</label>
                     <input
@@ -33,7 +32,6 @@ function TaskForm() {
                     />
                 </div>
 
-                {/* Priority */}
                 <div className="form-group">
                     <label className="form-label">Priority:</label>
                     <select
@@ -48,7 +46,6 @@ function TaskForm() {
                     </select>
                 </div>
 
-                {/* Description */}
                 <div className="form-group">
                     <label className="form-label">Description:</label>
                     <textarea
@@ -61,7 +58,6 @@ function TaskForm() {
                     ></textarea>
                 </div>
 
-                {/* Deadline */}
                 <div className="form-group">
                     <label className="form-label">Deadline:</label>
                     <input
@@ -73,7 +69,6 @@ function TaskForm() {
                     />
                 </div>
 
-                {/* Save Button */}
                 <button type="submit" className="submit-button">
                     Save
                 </button>

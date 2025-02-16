@@ -18,7 +18,6 @@ function ProjectForm() {
             <h2 className="form-title">📌 Create New Project</h2>
             <form onSubmit={handleSubmit} className="project-form">
 
-                {/* Project Name */}
                 <div className="form-group">
                     <label className="form-label">Project Name:</label>
                     <input
@@ -31,7 +30,6 @@ function ProjectForm() {
                     />
                 </div>
 
-                {/* Description */}
                 <div className="form-group">
                     <label className="form-label">Description:</label>
                     <textarea
@@ -44,7 +42,6 @@ function ProjectForm() {
                     ></textarea>
                 </div>
 
-                {/* Save Button */}
                 <button type="submit" className="submit-button">
                     Save
                 </button>

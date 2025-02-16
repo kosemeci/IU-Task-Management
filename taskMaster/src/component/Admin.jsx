@@ -2,8 +2,10 @@ import { useState } from "react";
 import TaskForm from "./AdminForm/TaskForm";
 import UserForm from "./AdminForm/UserForm";
 import ProjectForm from "./AdminForm/ProjectForm";
+import EditTaskForm from "./TableTask"
 
 import "../css/admin.css";
+import UserEditForm from "./AdminForm/UserEditForm";
 
 function AdminPanel() {
     const [activeTab, setActiveTab] = useState("tasks");
@@ -16,11 +18,11 @@ function AdminPanel() {
             case "recordUser":
                 return <UserForm />;
             case "editTask":
-                return <div><h3>Edit Task</h3><p>You can edit tasks here.</p></div>;
+                return <EditTaskForm />;
             case "projects":
                 return <div><h3>Projects</h3><p>You can view the projects here.</p></div>;
             case "editUser":
-                return <div><h3>Edit User</h3><p>You can edit user details here.</p></div>;
+                return <UserEditForm />;
             default:
                 return <ProjectForm />;
         }
