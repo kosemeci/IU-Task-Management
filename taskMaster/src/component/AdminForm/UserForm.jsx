@@ -22,17 +22,17 @@ function UserForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Kullanıcı verisi burada işlenebilir
+        // User data can be processed here
         console.log(userData);
     };
 
     return (
-        <div className="task-form-container">
-            <h3 className="task-form-title">Yeni Kullanıcı Oluştur</h3>
+        <div className="form-container">
+            <h3 className="form-title">Create New User</h3>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label className="form-label" htmlFor="firstName">
-                        Ad
+                        First Name
                     </label>
                     <input
                         type="text"
@@ -46,7 +46,7 @@ function UserForm() {
                 </div>
                 <div className="form-group">
                     <label className="form-label" htmlFor="lastName">
-                        Soyad
+                        Last Name
                     </label>
                     <input
                         type="text"
@@ -60,7 +60,7 @@ function UserForm() {
                 </div>
                 <div className="form-group">
                     <label className="form-label" htmlFor="email">
-                        E-posta
+                        Email
                     </label>
                     <input
                         type="email"
@@ -74,7 +74,7 @@ function UserForm() {
                 </div>
                 <div className="form-group">
                     <label className="form-label" htmlFor="phone">
-                        Telefon Numarası
+                        Phone Number
                     </label>
                     <input
                         type="tel"
@@ -88,7 +88,7 @@ function UserForm() {
                 </div>
                 <div className="form-group">
                     <label className="form-label" htmlFor="role">
-                        Rol
+                        Role
                     </label>
                     <input
                         type="text"
@@ -102,7 +102,7 @@ function UserForm() {
                 </div>
                 <div className="form-group">
                     <label className="form-label" htmlFor="position">
-                        Pozisyon
+                        Position
                     </label>
                     <input
                         type="text"
@@ -116,7 +116,7 @@ function UserForm() {
                 </div>
                 <div className="form-group">
                     <label className="form-label" htmlFor="birthDate">
-                        Doğum Günü
+                        Birth Date
                     </label>
                     <input
                         type="date"
@@ -129,7 +129,7 @@ function UserForm() {
                     />
                 </div>
                 <button type="submit" className="submit-button">
-                    Kaydet
+                    Save
                 </button>
             </form>
         </div>

@@ -11,21 +11,21 @@ function TaskForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Yeni Task:", task);
+        console.log("New Task:", task);
         setTask({ title: "", priority: "", description: "", deadline: "" });
     };
 
     return (
-        <div className="task-form-container">
-            <h2 className="task-form-title">📌 Yeni Task Oluştur</h2>
+        <div className="form-container">
+            <h2 className="form-title">📌 Create New Task</h2>
             <form onSubmit={handleSubmit} className="task-form">
 
-                {/* Task Başlığı */}
+                {/* Task Title */}
                 <div className="form-group">
-                    <label className="form-label">Task Başlığı:</label>
+                    <label className="form-label">Task Title:</label>
                     <input
                         type="text"
-                        placeholder="Örn: Web API geliştirme"
+                        placeholder="e.g., Develop Web API"
                         value={task.title}
                         onChange={(e) => setTask({ ...task, title: e.target.value })}
                         className="form-input"
@@ -33,26 +33,26 @@ function TaskForm() {
                     />
                 </div>
 
-                {/* Öncelik (Priority) */}
+                {/* Priority */}
                 <div className="form-group">
-                    <label className="form-label">Öncelik:</label>
+                    <label className="form-label">Priority:</label>
                     <select
                         value={task.priority}
                         onChange={(e) => setTask({ ...task, priority: e.target.value })}
                         className="form-input"
                         required
                     >
-                        <option value="Düşük">LOW</option>
-                        <option value="Normal">MEDIUM</option>
-                        <option value="Yüksek">HIGH</option>
+                        <option value="Low">LOW</option>
+                        <option value="Medium">MEDIUM</option>
+                        <option value="High">HIGH</option>
                     </select>
                 </div>
 
-                {/* Açıklama (Description) */}
+                {/* Description */}
                 <div className="form-group">
-                    <label className="form-label">Açıklama:</label>
+                    <label className="form-label">Description:</label>
                     <textarea
-                        placeholder="Görev detaylarını giriniz..."
+                        placeholder="Enter task details..."
                         value={task.description}
                         onChange={(e) => setTask({ ...task, description: e.target.value })}
                         className="form-input textarea"
@@ -61,9 +61,9 @@ function TaskForm() {
                     ></textarea>
                 </div>
 
-                {/* Son Tarih (Deadline) */}
+                {/* Deadline */}
                 <div className="form-group">
-                    <label className="form-label">Son Tarih:</label>
+                    <label className="form-label">Deadline:</label>
                     <input
                         type="date"
                         value={task.deadline}
@@ -73,9 +73,9 @@ function TaskForm() {
                     />
                 </div>
 
-                {/* Kaydet Butonu */}
+                {/* Save Button */}
                 <button type="submit" className="submit-button">
-                    Kaydet
+                    Save
                 </button>
 
             </form>
