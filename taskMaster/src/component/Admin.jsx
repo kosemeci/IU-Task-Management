@@ -1,6 +1,6 @@
 import { useState } from "react";
 import TaskForm from "./AdminForm/TaskForm";
-import UserForm from "./AdminForm/UserForm";
+import RegisterForm from "./AdminForm/RegisterForm";
 import ProjectForm from "./AdminForm/ProjectForm";
 import EditTaskForm from "./TableTask"
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
@@ -21,7 +21,7 @@ function AdminPanel() {
             case "tasks":
                 return <TaskForm />;
             case "recordUser":
-                return <UserForm />;
+                return <RegisterForm />;
             case "editTask":
                 return <EditTaskForm />;
             case "projects":

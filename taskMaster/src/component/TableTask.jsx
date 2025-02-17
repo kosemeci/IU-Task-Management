@@ -44,11 +44,14 @@ function Row(props) {
         }
     }
 
-    //put isteğinde sorun var 403 
     const chooseTask = async (taskId) => {
         try {
             const response = await axios.put(`http://localhost:8080/user-management/user/choose/task?userId=${userId}&taskId=${taskId}`,
+                {},//BOŞ BİLE OLSA GÖNDERMEK GEREKİYOR
                 {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     withCredentials: true,
                     timeout: 25000
                 });

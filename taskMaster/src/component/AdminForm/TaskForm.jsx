@@ -17,7 +17,7 @@ function TaskForm() {
 
     return (
         <div className="form-container">
-            <h2 className="form-title">📌 Create New Task</h2>
+            <h2 className="form-title"> Create New Task</h2>
             <form onSubmit={handleSubmit} className="task-form">
 
                 <div className="form-group">

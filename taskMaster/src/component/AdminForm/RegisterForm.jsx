@@ -1,5 +1,6 @@
 import { useState } from "react";
 import '../../css/admin.css';
+import axios from "axios";
 
 function UserForm() {
     const [userData, setUserData] = useState({
@@ -7,7 +8,7 @@ function UserForm() {
         lastName: "",
         email: "",
         phone: "",
-        role: "",
+        password: "",
         position: "",
         birthDate: "",
     });
@@ -20,10 +21,33 @@ function UserForm() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // User data can be processed here
-        console.log(userData);
+        userData.email = `${userData.firstName.slice(0, 1)}_${userData.lastName.toLowerCase()}@tms.com`
+        userData.password = "Tms.1234"
+        try {
+            const response = await axios.post('http://localhost:8080/auth/register',
+                {
+                    firstName: userData.firstName,
+                    lastName: userData.lastName,
+                    mailAdress: userData.email,
+                    position: userData.position,
+                    password: userData.password,
+                    telNumber: userData.phone,
+                    birthOfDate: userData.birthDate
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true,
+                    timeout: 20000
+                }
+            );
+            console.log(response.data)
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     return (
@@ -59,20 +83,6 @@ function UserForm() {
                     />
                 </div>
                 <div className="form-group">
-                    <label className="form-label" htmlFor="email">
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={userData.email}
-                        onChange={handleChange}
-                        className="form-input"
-                        required
-                    />
-                </div>
-                <div className="form-group">
                     <label className="form-label" htmlFor="phone">
                         Phone Number
                     </label>
@@ -86,7 +96,7 @@ function UserForm() {
                         required
                     />
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                     <label className="form-label" htmlFor="role">
                         Role
                     </label>
@@ -99,7 +109,7 @@ function UserForm() {
                         className="form-input"
                         required
                     />
-                </div>
+                </div> */}
                 <div className="form-group">
                     <label className="form-label" htmlFor="position">
                         Position
