@@ -23,7 +23,6 @@
     margin-bottom: 20px;
 }
 
-/* Sidebar Menü */
 .admin-sidebar ul {
     list-style: none;
     padding: 0;
@@ -34,6 +33,14 @@
     cursor: pointer;
     transition: background 0.3s;
     border-radius: 5px;
+    gap: 10px;
+    align-items: center;
+    display: flex;
+}
+
+.admin-sidebar ul li svg {
+    font-size: 25px;
+    color: rgb(216, 160, 160);
 }
 
 .admin-sidebar ul li:hover {
@@ -44,7 +51,6 @@
     background: #e74c3c;
 }
 
-/* Admin İçeriği */
 .admin-content {
     flex: 1;
     overflow: auto;

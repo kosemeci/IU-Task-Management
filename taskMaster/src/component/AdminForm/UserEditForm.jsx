@@ -97,7 +97,7 @@ function StickyHeadTable() {
 
     useEffect(() => {
         fetchUsers();
-    }, [rows])
+    }, [])
 
 
     return (
