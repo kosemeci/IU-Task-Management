@@ -9,7 +9,7 @@
 
 /* Sidebar */
 .admin-sidebar {
-    width: 230px;
+    min-width: 225px;
     background-color: #2c3e50;
     color: white;
     padding: 12px;
@@ -47,6 +47,7 @@
 /* Admin İçeriği */
 .admin-content {
     flex: 1;
+    overflow: auto;
     padding: 30px;
     background: white;
     border-radius: 10px;
