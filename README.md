@@ -9,8 +9,14 @@
 ![image](https://github.com/user-attachments/assets/ec9a982e-0d7a-4205-9c46-8759d5f839c0)
 
 /admin page
-![image](https://github.com/user-attachments/assets/3a9e5f44-ec5a-487f-878c-6dd1f97f106e)
+![image](https://github.com/user-attachments/assets/bf476be9-7ac1-4dec-bdca-e115a7dde858)
 
+/user page 
+![image](https://github.com/user-attachments/assets/25febc3a-4430-4463-8fa8-5c665fa4e8c9)
+
+
+/header sidebar 
+![image](https://github.com/user-attachments/assets/289a0a9c-9455-4f94-b628-579a230caffc)
 
 
 
