@@ -6,10 +6,17 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { useContext } from 'react';
+import Drawer from '@mui/material/Drawer';
+import { useState } from 'react';
+import Sidebar from './Sidebar';
+
+
+
 function Header() {
 
     const navigate = useNavigate();
     const { role } = useContext(AuthContext);
+    const [open, setOpen] = useState(false);
 
     const handleNavigate = (path) => {
         navigate(path);
@@ -20,6 +27,10 @@ function Header() {
         else { handleNavigate('/user') }
     }
 
+    const toggleMenu = (newOpen) => () => {
+        setOpen(newOpen);
+    };
+
     return (
         <>
             <div className='header'>
@@ -29,7 +40,10 @@ function Header() {
                         onClick={() => handleNavigate('/tasks')} />
                     <NotificationsNoneIcon className='header-icon' onClick={() => handleNavigate('/notification')} />
                     <PermIdentityIcon className='header-icon' onClick={() => handleNavigateByRole()} />
-                    <MenuOutlinedIcon className='header-icon' />
+                    <MenuOutlinedIcon className='header-icon' onClick={toggleMenu(true)} />
+                    <Drawer anchor='right' open={open} onClose={toggleMenu(false)}>
+                        {<Sidebar />}
+                    </Drawer>
                 </div>
             </div>
         </>
