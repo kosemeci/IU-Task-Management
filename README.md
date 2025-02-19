@@ -11,6 +11,8 @@
 /admin page
 ![image](https://github.com/user-attachments/assets/3a9e5f44-ec5a-487f-878c-6dd1f97f106e)
 
+/header sidebar 
+![Uploading image.png…]()
 
 
 
