@@ -4,12 +4,20 @@ import CasesOutlinedIcon from '@mui/icons-material/CasesOutlined'; import Notifi
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
 function Header() {
 
     const navigate = useNavigate();
+    const { role } = useContext(AuthContext);
 
     const handleNavigate = (path) => {
         navigate(path);
+    }
+
+    const handleNavigateByRole = () => {
+        if (role == 'ADMIN') { handleNavigate('/admin') }
+        else { handleNavigate('/user') }
     }
 
     return (
@@ -20,7 +28,7 @@ function Header() {
                     <CasesOutlinedIcon className='header-icon'
                         onClick={() => handleNavigate('/tasks')} />
                     <NotificationsNoneIcon className='header-icon' onClick={() => handleNavigate('/notification')} />
-                    <PermIdentityIcon className='header-icon' onClick={() => handleNavigate('/user')} />
+                    <PermIdentityIcon className='header-icon' onClick={() => handleNavigateByRole()} />
                     <MenuOutlinedIcon className='header-icon' />
                 </div>
             </div>

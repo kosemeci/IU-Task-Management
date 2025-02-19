@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
     // }, []);
 
     useEffect(() => {
-        if (role == 'ADMIN') navigate('/Admin');
+        if (role == 'ADMIN') navigate('/admin');
         else navigate('/')
     }, [userId, role])
 

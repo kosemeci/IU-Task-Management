@@ -8,9 +8,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const navigate = useNavigate();
     const { login } = useContext(AuthContext);
-    const [userId, setUserId] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();

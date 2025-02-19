@@ -14,7 +14,7 @@ function User() {
   const [username, setUsername] = useState('');
   const [title, setTitle] = useState('Bilgilerim');
   const [selectTitle, setSelectTitle] = useState(1);
-  const { userId } = useContext(AuthContext);
+  const { userId, role } = useContext(AuthContext);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -37,10 +37,6 @@ function User() {
       console.log(error)
     }
   }
-
-  useEffect(() => {
-    console.log("Title updated.")
-  }, [title])
 
   useEffect(() => {
     getUsers();

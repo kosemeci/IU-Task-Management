@@ -38,13 +38,12 @@ function Home() {
             <div className="cta-buttons">
                 {mail ? (
                     <>
-                        <button className="dashboard-btn">🚀 Görevlerine Git</button>
+                        {/* <button className="dashboard-btn" >🚀 Görevlerine Git</button> */}
                         <button className="logout-btn" onClick={logout}>Çıkış Yap</button>
                     </>
                 ) : (
                     <>
                         <button className="login-btn" onClick={handleLoginClick}>🔑 Giriş Yap</button>
-                        <button className="signup-btn">🆕 Kayıt Ol</button>
                     </>
                 )}
             </div>
