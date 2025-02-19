@@ -9,6 +9,8 @@ import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
+import InfoIcon from '@mui/icons-material/Info';
+
 import "../css/admin.css";
 import UserEditForm from "./AdminForm/UserEditForm";
 
@@ -26,6 +28,8 @@ function AdminPanel() {
                 return <EditTaskForm />;
             case "projects":
                 return <div><h3>Projects</h3><p>You can view the projects here.</p></div>;
+            case "myInfo":
+                return <div><h3>Info</h3><p>You can view the projects here.</p></div>;
             case "editUser":
                 return <UserEditForm />;
             default:
@@ -38,6 +42,7 @@ function AdminPanel() {
             <div className="admin-sidebar">
                 <h2 className="admin-title"> Admin Panel</h2>
                 <ul>
+                    <li className={activeTab === "myInfo" ? "active" : ""} onClick={() => setActiveTab("myInfo")}><InfoIcon /> My Info</li>
                     <li className={activeTab === "recordUser" ? "active" : ""} onClick={() => setActiveTab("recordUser")}><PersonAddAltIcon /> Register New User</li>
                     <li className={activeTab === "editUser" ? "active" : ""} onClick={() => setActiveTab("editUser")}><ManageAccountsIcon /> Edit User</li>
                     <li className={activeTab === "tasks" ? "active" : ""} onClick={() => setActiveTab("tasks")}><AddTaskOutlinedIcon /> Create Task</li>

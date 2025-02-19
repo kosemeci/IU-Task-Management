@@ -1,5 +1,4 @@
 import React from 'react'
-import '../css/header.css'
 import { Box, List, ListItem, Divider, Button } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -20,6 +19,7 @@ const listItemStyles = {
     display: "flex",
     alignItems: "center"
 }
+
 function Sidebar() {
 
     return (
