@@ -5,6 +5,10 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Drawer from '@mui/material/Drawer';
 
 const menuItems = [
     { icon: <HomeIcon sx={{ pr: '10px', color: 'black' }} />, text: 'Main Page' },
@@ -20,27 +24,53 @@ const listItemStyles = {
     alignItems: "center"
 }
 
-function Sidebar() {
-
+function Sidebar({ open, toggleMenu }) {
+    const { mail, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
     return (
-        <Box sx={{ width: 200, display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <List sx={{ flexGrow: 1 }}>
-                {menuItems.map((item, index) => (
-                    <div key={index}>
-                        <ListItem sx={listItemStyles}>
-                            {item.icon} {item.text}
-                        </ListItem>
-                        {index !== menuItems.length - 1 && <Divider />}
-                    </div>
-                ))}
-            </List>
-            <Button
-                variant="contained"
-                sx={{ width: '100%', backgroundColor: '#1565c0', '&:hover': { backgroundColor: '#222DC9' }, cursor: 'pointer' }}
-            >
-                Çıkış Yap  <ExitToAppIcon sx={{ px: '4px' }} />
-            </Button>
-        </Box>
+        <Drawer anchor='right' open={open} onClose={() => toggleMenu(false)} >
+            <Box sx={{ width: 200, display: 'flex', flexDirection: 'column', height: '100%' }}>
+                <List sx={{ flexGrow: 1 }}>
+                    {menuItems.map((item, index) => (
+                        <div key={index}>
+                            <ListItem
+                                sx={listItemStyles}
+                                onClick={() => {
+                                    navigate(`/${item.text.toLowerCase().replace(" ", "")}`);
+                                    toggleMenu(false);
+                                }}>
+                                {item.icon} {item.text}
+                            </ListItem>
+                            {index !== menuItems.length - 1 && <Divider />}
+                        </div>
+                    ))}
+                </List>
+                {mail ? (
+                    <Button
+                        variant="contained"
+                        sx={{ width: '100%', backgroundColor: '#E6B54C', '&:hover': { backgroundColor: '#e6b5a9' }, cursor: 'pointer' }}
+                        onClick={() => {
+                            toggleMenu(false);
+                            logout()
+                        }}
+                    >
+                        Logout  <ExitToAppIcon sx={{ px: '4px' }} />
+                    </Button>
+                ) : (
+                    <Button
+                        variant="contained"
+                        sx={{ width: '100%', backgroundColor: '#a22dc0', '&:hover': { backgroundColor: '#a94DC9' }, cursor: 'pointer' }}
+                        onClick={() => {
+                            toggleMenu(false);
+                            navigate('/login')
+                        }}
+                    >
+                        Login   <ExitToAppIcon sx={{ px: '4px' }} />
+                    </Button>
+                )}
+            </Box>
+        </Drawer>
+
     );
 }
 
