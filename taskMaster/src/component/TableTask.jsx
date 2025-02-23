@@ -22,9 +22,8 @@ import { useNavigate } from 'react-router-dom';
 
 const BASE_URL = "http://localhost:8080/task-management/task/all";
 
-
 function Row(props) {
-    const { row } = props;
+    const { row, getTaskList } = props;
     const [open, setOpen] = React.useState(false);
     const { userId } = useContext(AuthContext);
 
@@ -34,7 +33,7 @@ function Row(props) {
             case 'PENDING':
                 return <button className="task-button" onClick={() => chooseTask(taskId)}>Görevi Al</button>
             case 'IN_PROGRESS':
-                return <button className="task-button">Görevi Tamamla</button>
+                return <button className="task-button" onClick={() => completeTask(taskId)}>Görevi Tamamla</button>
             case 'FAILED':
                 return <p>*Görev başarısızlıkla sonuçlandı.</p>
             case 'COMPLETED':
@@ -56,9 +55,29 @@ function Row(props) {
                     timeout: 25000
                 });
             console.log(response.data);
+            getTaskList();
 
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    const completeTask = async (taskId) => {
+        try {
+            const response = await axios.put(`http://localhost:8080/task-management/task/complete?taskId=${taskId}`,
+                {},
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    withCredentials: true,
+                    timeout: 20000
+                }
+            );
+            console.log(response.data);
+            getTaskList();
+        } catch (error) {
+            console.error("Hata oluştu:", error.response ? error.response.data : error.message);
         }
     }
 
@@ -139,6 +158,7 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
     const [allTasks, setAllTasks] = useState([]);
     const { userId } = useContext(AuthContext);
     const navigate = useNavigate('');
+
     const getTaskList = async () => {
         try {
             if (!userId) navigate('/login'); // userId yoksa API isteği yapma
@@ -146,7 +166,6 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
             const response = await axios.get(BASE_URL, {
                 headers: {
                     "Content-Type": "application/json",
-                    // "Authorization": `Bearer ${localStorage.getItem("token")}`
                 },
                 withCredentials: true,
                 timeout: 10000
@@ -254,7 +273,7 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
                 </TableHead>
                 <TableBody>
                     {taskList.map((row) => (
-                        <Row key={row.id} row={row} >
+                        <Row key={row.id} row={row} getTaskList={getTaskList} >
                         </Row>
 
                     ))}

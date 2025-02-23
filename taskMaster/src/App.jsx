@@ -8,40 +8,27 @@ import LoginPage from './component/Login';
 import Notification from './component/Notification';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AuthProvider from './context/AuthContext';
-import Dashboard from './component/Dashboard';
-
-// function App() {
-//   return (
-//     <Router>
-//       <AuthProvider>
-//         <Header />
-
-//         <Routes>
-//           <Route path="/" element={<HomePage />} />
-//           <Route path="/login" element={<LoginPage />} />
-//           <Route path="/admin" element={<AdminPage />} />
-//           <Route path="/tasks" element={<TaskPage />} />
-//           <Route path="/user" element={<UserPage />} />
-//           <Route path="/notification" element={<Notification />} />
-//           <Route path="/techfolio" element={<Dashboard />} />
-//         </Routes>
-
-//       </AuthProvider>
-//     </Router>
-//   );
-// }
 
 function App() {
   return (
     <Router>
+      <AuthProvider>
+        <Header />
 
-      <Routes>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/task" element={<TaskPage />} />
+          <Route path="/user" element={<UserPage />} />
+          <Route path="/notification" element={<Notification />} />
+        </Routes>
 
-        <Route path="/" element={<Dashboard />} />
-      </Routes>
+      </AuthProvider>
     </Router>
   );
 }
+
 
 
 export default App;

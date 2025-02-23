@@ -36,7 +36,7 @@ function Header() {
                 <h2 className='header-title' onClick={() => handleNavigate('/')}>Task Manager</h2>
                 <div className='header-body'>
                     <CasesOutlinedIcon className='header-icon'
-                        onClick={() => handleNavigate('/tasks')} />
+                        onClick={() => handleNavigate('/task')} />
                     <NotificationsNoneIcon className='header-icon' onClick={() => handleNavigate('/notification')} />
                     <PermIdentityIcon className='header-icon' onClick={() => handleNavigateByRole()} />
                     <MenuOutlinedIcon className='header-icon' onClick={toggleMenu(true)} />
