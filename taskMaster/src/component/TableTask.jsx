@@ -25,7 +25,7 @@ const BASE_URL = "http://localhost:8080/task-management/task/all";
 function Row(props) {
     const { row, getTaskList } = props;
     const [open, setOpen] = React.useState(false);
-    const { userId } = useContext(AuthContext);
+    const { role } = useContext(AuthContext);
 
 
     const renderTaskAction = (status, taskId) => {
@@ -43,9 +43,33 @@ function Row(props) {
         }
     }
 
+    const renderTaskActionForAdmin = (status, taskId) => {
+        switch (status) {
+            case 'IN_PROGRESS':
+                return (
+                    <>
+                        <button className="task-button">Extend Time</button>
+                        <button className="task-button">Cancel</button>
+                    </>
+                );
+            case 'COMPLETED':
+                return <p>*Görev başarıyla sonuçlandı.</p>
+            case 'FAILED':
+                return <button className="task-button">Extend Time</button>;
+            default:
+                return (
+                    <>
+                        <button className="task-button">Extend Time</button>
+                        <button className="task-button">Assign Task</button>
+                        <button className="task-button">Cancel</button>
+                    </>
+                );
+        }
+    }
+
     const chooseTask = async (taskId) => {
         try {
-            const response = await axios.put(`http://localhost:8080/user-management/user/choose/task?userId=${userId}&taskId=${taskId}`,
+            const response = await axios.put(`http://localhost:8080/user-management/user/choose/task?taskId=${taskId}`,
                 {},//BOŞ BİLE OLSA GÖNDERMEK GEREKİYOR
                 {
                     headers: {
@@ -138,12 +162,11 @@ function Row(props) {
                                 <TableBody>
                                     <TableRow className='task-action' >
                                         <TableCell sx={{ textAlign: 'right', padding: '8px' }} >
-                                            {renderTaskAction(row.status, row.id)}
+                                            {role == 'ADMIN' ? renderTaskActionForAdmin(row.status, row.id) : renderTaskAction(row.status, row.id)}
                                         </TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
-
                         </Box>
                     </Collapse>
                 </TableCell>
