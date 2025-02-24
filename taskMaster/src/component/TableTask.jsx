@@ -18,6 +18,7 @@ import axios from 'axios'
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Divider } from '@mui/material';
 
 
 const BASE_URL = "http://localhost:8080/task-management/task/all";
@@ -25,22 +26,35 @@ const BASE_URL = "http://localhost:8080/task-management/task/all";
 function Row(props) {
     const { row, getTaskList } = props;
     const [open, setOpen] = React.useState(false);
-    const { role } = useContext(AuthContext);
+    const { mail, role } = useContext(AuthContext);
 
 
-    const renderTaskAction = (status, taskId) => {
-        switch (status) {
-            case 'PENDING':
-                return <button className="task-button" onClick={() => chooseTask(taskId)}>Görevi Al</button>
-            case 'IN_PROGRESS':
-                return <button className="task-button" onClick={() => completeTask(taskId)}>Görevi Tamamla</button>
-            case 'FAILED':
-                return <p>*Görev başarısızlıkla sonuçlandı.</p>
-            case 'COMPLETED':
-                return <p>*Görev başarıyla sonuçlandı.</p>
-            default:
-                return <p>hello world</p>
+    const renderTaskAction = (status, taskId, taskOwnerMail) => {
+        if (mail == taskOwnerMail) {
+            switch (status) {
+                case 'PENDING':
+                    return <button className="task-button" onClick={() => chooseTask(taskId)}>Görevi Al</button>
+                case 'IN_PROGRESS':
+                    return <button className="task-button" onClick={() => completeTask(taskId)}>Görevi Tamamla</button>
+                case 'FAILED':
+                    return <p>*Görev başarısızlıkla sonuçlandı.</p>
+                case 'COMPLETED':
+                    return <p>*Görev başarıyla sonuçlandı.</p>
+                case 'CANCELLED':
+                    return <p>*Görev iptal edildi.</p>
+            }
         }
+        else {
+            switch (status) {
+                case 'FAILED':
+                    return <p>*Görev başarısızlıkla sonuçlandı.</p>
+                case 'COMPLETED':
+                    return <p>*Görev başarıyla sonuçlandı.</p>
+                case 'CANCELLED':
+                    return <p>*Görev iptal edildi.</p>
+            }
+        }
+
     }
 
     const renderTaskActionForAdmin = (status, taskId) => {
@@ -56,6 +70,8 @@ function Row(props) {
                 return <p>*Görev başarıyla sonuçlandı.</p>
             case 'FAILED':
                 return <button className="task-button">Extend Time</button>;
+            case 'CANCELLED':
+                return <p>*Görev iptal edildi.</p>
             default:
                 return (
                     <>
@@ -158,11 +174,12 @@ function Row(props) {
                                     </TableRow>
                                 </TableBody>
                             </Table>
+                            <Divider sx={{ borderBottomStyle: "double", borderBottomWidth: "2px", borderColor: '#8e7f8f' }} />
                             <Table>
                                 <TableBody>
                                     <TableRow className='task-action' >
                                         <TableCell sx={{ textAlign: 'right', padding: '8px' }} >
-                                            {role == 'ADMIN' ? renderTaskActionForAdmin(row.status, row.id) : renderTaskAction(row.status, row.id)}
+                                            {role == 'ADMIN' ? renderTaskActionForAdmin(row.status, row.id) : renderTaskAction(row.status, row.id, row.user?.mailAdress)}
                                         </TableCell>
                                     </TableRow>
                                 </TableBody>
