@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Box, Card, CardContent, Typography, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import { CheckCircle, Cancel, HourglassFull, Group, AdminPanelSettings, List, Business } from "@mui/icons-material";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import PiChartNeedle from "../Rechart/PiChartNeedle";
 
 const projects = [
-    { id: 1, name: "Proje A", tasks: 50, users: 10 },
-    { id: 2, name: "Proje B", tasks: 30, users: 5 },
-    { id: 3, name: "Proje C", tasks: 40, users: 8 },
+    { id: 1, name: "Proje A", tasks: 50, users: 10, completion: 80 },
+    { id: 2, name: "Proje B", tasks: 30, users: 5, completion: 30 },
+    { id: 3, name: "Proje C", tasks: 40, users: 8, completion: 40 },
 ];
 
 const stats = [
@@ -20,12 +21,12 @@ const stats = [
 ];
 
 const Dashboard = () => {
-    const [selectedProject, setSelectedProject] = useState(projects[0]);
+    const [selectedProject, setSelectedProject] = useState('');
 
     const chartData = [
-        { name: "Tamamlanan", value: 80, fill: "#4caf50" },
-        { name: "Tamamlanamayan", value: 20, fill: "#f44336" },
-        { name: "Üzerinde Çalışılan", value: 20, fill: "#ff9800" },
+        { name: "Completed", value: 80, fill: "#4caf50" },
+        { name: "Cancelled & Failed", value: 20, fill: "#f44336" },
+        { name: "In Progress", value: 20, fill: "#ff9800" },
     ];
 
     return (
@@ -33,7 +34,7 @@ const Dashboard = () => {
             <FormControl fullWidth sx={{ mb: 3 }}>
                 <InputLabel>Proje Seç</InputLabel>
                 <Select
-                    value={selectedProject.id}
+                    value={selectedProject?.id}
                     onChange={(e) => setSelectedProject(projects.find(p => p.id === e.target.value))}
                 >
                     {projects.map((project) => (
@@ -48,7 +49,7 @@ const Dashboard = () => {
                     gap: 3,
                 }}
             >
-                {stats.map((stat, index) => (
+                {!selectedProject && stats.map((stat, index) => (
                     <Card key={index} sx={{ display: "flex", alignItems: "center", padding: 2, boxShadow: 3 }}>
                         <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
                             {stat.icon}
@@ -57,36 +58,53 @@ const Dashboard = () => {
                         </CardContent>
                     </Card>
                 ))}
-                <Card sx={{ display: "flex", alignItems: "center", padding: 2, boxShadow: 3 }}>
-                    <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
-                        <List fontSize="large" color="primary" />
-                        <Typography variant="h6" sx={{ marginTop: 1 }}>Seçili Projedeki Görev Sayısı</Typography>
-                        <Typography variant="h4" fontWeight={700}>{selectedProject.tasks}</Typography>
-                    </CardContent>
-                </Card>
-                <Card sx={{ display: "flex", alignItems: "center", padding: 2, boxShadow: 3 }}>
-                    <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
-                        <Group fontSize="large" color="info" />
-                        <Typography variant="h6" sx={{ marginTop: 1 }}>Projede Çalışan Kullanıcı Sayısı</Typography>
-                        <Typography variant="h4" fontWeight={700}>{selectedProject.users}</Typography>
-                    </CardContent>
-                </Card>
+                {selectedProject && (
+                    <>
+                        <Card sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+                            <PiChartNeedle value={60} />
+                            <Typography variant="h6" align="center" sx={{ marginBottom: 0 }}>
+                                Completion Rate
+                            </Typography>
+                            <Typography variant="h5" fontWeight={700} align="center" sx={{ marginBottom: 0 }}>
+                                %{60}
+                            </Typography>
+                        </Card>
+                        <Card sx={{ display: "flex", alignItems: "center", padding: 2, boxShadow: 3 }}>
+                            <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
+                                <List fontSize="large" color="primary" />
+                                <Typography variant="h6" sx={{ marginTop: 1 }}>Seçili Projedeki Görev Sayısı</Typography>
+                                <Typography variant="h4" fontWeight={700}>{selectedProject.tasks}</Typography>
+                            </CardContent>
+                        </Card>
+                        <Card sx={{ display: "flex", alignItems: "center", padding: 2, boxShadow: 3 }}>
+                            <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
+                                <Group fontSize="large" color="info" />
+                                <Typography variant="h6" sx={{ marginTop: 1 }}>Projede Çalışan Kullanıcı Sayısı</Typography>
+                                <Typography variant="h4" fontWeight={700}>{selectedProject.users}</Typography>
+                            </CardContent>
+                        </Card>
+                    </>
+                )}
             </Box>
-            <Box sx={{ mt: 5 }}>
-                <Card sx={{ padding: 3, boxShadow: 3 }}>
-                    <Typography variant="h6" sx={{ textAlign: "center", mb: 2 }}>Görev Dağılımı</Typography>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <BarChart data={chartData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Bar dataKey="value" fill="#8884d8" />
-                        </BarChart>
-                    </ResponsiveContainer>
-                </Card>
-            </Box>
+            {selectedProject && (
+                <>
+                    <Box sx={{ mt: 5 }}>
+                        <Card sx={{ padding: 3, boxShadow: 3 }}>
+                            <Typography variant="h6" sx={{ textAlign: "center", mb: 2 }}>Görev Dağılımı</Typography>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <BarChart data={chartData}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Bar dataKey="value" fill="#1884d8" barSize={90} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </Card>
+                    </Box>
+                </>
+            )}
         </Box>
     );
 };
