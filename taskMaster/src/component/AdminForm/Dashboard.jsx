@@ -21,11 +21,12 @@ const stats = [
 ];
 
 const Dashboard = () => {
-    const [selectedProject, setSelectedProject] = useState('');
+    const [selectedProject, setSelectedProject] = useState(null);
 
     const chartData = [
         { name: "Completed", value: 80, fill: "#4caf50" },
-        { name: "Cancelled & Failed", value: 20, fill: "#f44336" },
+        { name: "Cancelled", value: 20, fill: "#f44336" },
+        { name: "Failed", value: 20, fill: "#f44336" },
         { name: "In Progress", value: 20, fill: "#ff9800" },
     ];
 
@@ -34,7 +35,7 @@ const Dashboard = () => {
             <FormControl fullWidth sx={{ mb: 3 }}>
                 <InputLabel>Proje Seç</InputLabel>
                 <Select
-                    value={selectedProject?.id}
+                    value={selectedProject ? selectedProject.id : ""}
                     onChange={(e) => setSelectedProject(projects.find(p => p.id === e.target.value))}
                 >
                     {projects.map((project) => (
@@ -61,12 +62,12 @@ const Dashboard = () => {
                 {selectedProject && (
                     <>
                         <Card sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
-                            <PiChartNeedle value={60} />
+                            <PiChartNeedle value={selectedProject.completion} />
                             <Typography variant="h6" align="center" sx={{ marginBottom: 0 }}>
                                 Completion Rate
                             </Typography>
                             <Typography variant="h5" fontWeight={700} align="center" sx={{ marginBottom: 0 }}>
-                                %{60}
+                                %{selectedProject.completion}
                             </Typography>
                         </Card>
                         <Card sx={{ display: "flex", alignItems: "center", padding: 2, boxShadow: 3 }}>
