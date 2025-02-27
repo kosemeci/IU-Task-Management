@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Box, Card, CardContent, Typography, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import { CheckCircle, Cancel, HourglassFull, Group, AdminPanelSettings, List, Business } from "@mui/icons-material";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import PiChartNeedle from "../Rechart/PiChartNeedle";
+import AnimatedNumber from "./AnimatedNumber";
+import BarCharts from "../Rechart/BarCharts";
 
 const projects = [
     { id: 1, name: "Proje A", tasks: 50, users: 10, completion: 80 },
@@ -24,10 +25,11 @@ const Dashboard = () => {
     const [selectedProject, setSelectedProject] = useState(null);
 
     const chartData = [
-        { name: "Completed", value: 80, fill: "#4caf50" },
-        { name: "Cancelled", value: 20, fill: "#f44336" },
-        { name: "Failed", value: 20, fill: "#f44336" },
-        { name: "In Progress", value: 20, fill: "#ff9800" },
+        { name: "Completed", value: 8, fill: "#4caf50" },
+        { name: "Pending", value: 18, fill: "#00000" },
+        { name: "In-Prog", value: 28, fill: "#ff9800" },
+        { name: "Failed", value: 2, fill: "#f44336" },
+        { name: "Cancelled", value: 2, fill: "#f44336" },
     ];
 
     return (
@@ -74,37 +76,42 @@ const Dashboard = () => {
                             <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
                                 <List fontSize="large" color="primary" />
                                 <Typography variant="h6" sx={{ marginTop: 1 }}>Seçili Projedeki Görev Sayısı</Typography>
-                                <Typography variant="h4" fontWeight={700}>{selectedProject.tasks}</Typography>
+                                <Typography variant="h4" fontWeight={700}>
+                                    <AnimatedNumber target={selectedProject.tasks} />
+                                </Typography>
                             </CardContent>
                         </Card>
                         <Card sx={{ display: "flex", alignItems: "center", padding: 2, boxShadow: 3 }}>
                             <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
                                 <Group fontSize="large" color="info" />
                                 <Typography variant="h6" sx={{ marginTop: 1 }}>Projede Çalışan Kullanıcı Sayısı</Typography>
-                                <Typography variant="h4" fontWeight={700}>{selectedProject.users}</Typography>
+                                <Typography variant="h4" fontWeight={700}>
+                                    <AnimatedNumber target={selectedProject.users} />
+                                </Typography>
                             </CardContent>
                         </Card>
                     </>
                 )}
             </Box>
             {selectedProject && (
-                <>
-                    <Box sx={{ mt: 5 }}>
-                        <Card sx={{ padding: 3, boxShadow: 3 }}>
-                            <Typography variant="h6" sx={{ textAlign: "center", mb: 2 }}>Görev Dağılımı</Typography>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <BarChart data={chartData}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="name" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    <Bar dataKey="value" fill="#1884d8" barSize={90} />
-                                </BarChart>
-                            </ResponsiveContainer>
-                        </Card>
-                    </Box>
-                </>
+
+                <Box sx={{ mt: 5 }}>
+                    <Card sx={{ padding: 3, boxShadow: 3 }}>
+                        <Typography variant="h6" sx={{ textAlign: "center", mb: 2 }}>Task Distribution</Typography>
+                        {/* <ResponsiveContainer width="100%" height={300}>
+                            <BarChart data={chartData}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <Bar dataKey="value" fill="#1884d8" barSize={60} />
+                            </BarChart>
+                        </ResponsiveContainer> */}
+                        <BarCharts chartData={chartData} />
+                    </Card>
+                </Box>
+
             )}
         </Box>
     );

@@ -1,7 +1,6 @@
 /* eslint-disable no-shadow */
 import React, { PureComponent } from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
-import Typography from '@mui/material/Typography';
 
 
 const RADIAN = Math.PI / 180;
@@ -47,7 +46,6 @@ class PiChartNeedle extends PureComponent {
         };
 
         return (
-
             <PieChart width={250} height={150}>
                 <Pie
                     dataKey="value"
