@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 
 const columns = [
-    { id: 'id', label: 'id', minWidth: 20 },
+    // { id: 'id', label: 'id', minWidth: 20 },
     { id: 'firstName', label: 'First Name', minWidth: 120 },
     {
         id: 'lastName',
@@ -78,7 +78,7 @@ function StickyHeadTable() {
             console.log(response.data);
             const userList = response.data.map((user) => (
                 {
-                    id: user.id,
+                    // id: user.id,
                     firstName: user.firstName,
                     lastName: user.lastName,
                     mail: user.mailAdress,
@@ -89,7 +89,6 @@ function StickyHeadTable() {
             ));
             setRows(userList);
 
-
         } catch (error) {
             console.log(error)
         }
@@ -98,7 +97,6 @@ function StickyHeadTable() {
     useEffect(() => {
         fetchUsers();
     }, [])
-
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>

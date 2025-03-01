@@ -41,10 +41,10 @@ function UserForm() {
                         'Content-Type': 'application/json'
                     },
                     withCredentials: true,
-                    timeout: 20000
+                    timeout: 25000
                 }
             );
-            console.log(response.data)
+            // console.log(response.data)
         } catch (error) {
             console.log(error)
         }
@@ -96,20 +96,6 @@ function UserForm() {
                         required
                     />
                 </div>
-                {/* <div className="form-group">
-                    <label className="form-label" htmlFor="role">
-                        Role
-                    </label>
-                    <input
-                        type="text"
-                        id="role"
-                        name="role"
-                        value={userData.role}
-                        onChange={handleChange}
-                        className="form-input"
-                        required
-                    />
-                </div> */}
                 <div className="form-group">
                     <label className="form-label" htmlFor="position">
                         Position
