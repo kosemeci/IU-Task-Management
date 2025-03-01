@@ -56,15 +56,24 @@ const Dashboard = () => {
         getData();
     }, [])
 
+    const handleProjectChange = (e) => {
+        const selected = projects.find(p => p.id === e.target.value);
+        setSelectedProject(selected);
+    };
+
+    const handleGeneralStats = () => {
+        setSelectedProject(null);
+    };
+
     return (
         <Box sx={{ p: 3 }}>
             <FormControl fullWidth sx={{ mb: 3 }}>
                 <InputLabel>Proje Seç</InputLabel>
                 <Select
                     value={selectedProject ? selectedProject.id : ""}
-                    onChange={(e) => setSelectedProject(projects.find(p => p.id === e.target.value))}
+                    onChange={handleProjectChange}
                 >
-                    <MenuItem selected> General Stats</MenuItem>
+                    <MenuItem value="" onClick={handleGeneralStats}>Genel İstatistikler</MenuItem>
                     {projects.map((project) => (
                         <MenuItem key={project.id} value={project.id}>{project.projectName}</MenuItem>
                     ))}
@@ -82,7 +91,7 @@ const Dashboard = () => {
                         <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
                             {stat.icon}
                             <Typography variant="h6" sx={{ marginTop: 1 }}>{stat.label}</Typography>
-                            <Typography variant="h4" fontWeight={700}>{stat.value}</Typography>
+                            <Typography variant="h4" fontWeight={700}>{<AnimatedNumber target={stat.value} />}</Typography>
                         </CardContent>
                     </Card>
                 ))}
