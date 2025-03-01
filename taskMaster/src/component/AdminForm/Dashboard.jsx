@@ -6,12 +6,14 @@ import AnimatedNumber from "./AnimatedNumber";
 import BarCharts from "../Rechart/BarCharts";
 import { getAllProject } from "../Api/projects";
 import { getProjectStatistics, getProjectGeneralStatistics } from "../Api/ProjectStatistics";
+import LoadingSpinner from "../LoadingSpinner";
 
 const Dashboard = () => {
     const [selectedProject, setSelectedProject] = useState(null);
     const [projects, setProjects] = useState([]);
     const [projectStatistics, setProjectStats] = useState({});
     const [projectGenStats, setProjectGenStats] = useState({});
+    const [loading, setLoading] = useState(true);
 
     const stats = [
         { label: "Toplam Proje Sayısı", value: projectGenStats['totalProject'], icon: <Business fontSize="large" color="primary" /> },
@@ -37,6 +39,9 @@ const Dashboard = () => {
                 } catch (error) {
                     console.log(error);
                 }
+                finally {
+                    setLoading(false);
+                }
             }
             getStats();
         }
@@ -52,6 +57,9 @@ const Dashboard = () => {
                 setProjectGenStats(response);
             } catch (error) {
                 console.error("Error fetching data in component", error);
+            }
+            finally {
+                setLoading(false);
             }
         };
 
@@ -88,16 +96,21 @@ const Dashboard = () => {
                     gap: 3,
                 }}
             >
-                {!selectedProject && stats.map((stat, index) => (
-                    <Card key={index} sx={{ display: "flex", alignItems: "center", padding: 2, boxShadow: 3 }}>
-                        <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
-                            {stat.icon}
-                            <Typography variant="h6" sx={{ marginTop: 1 }}>{stat.label}</Typography>
-                            <Typography variant="h4" fontWeight={700}>{<AnimatedNumber target={stat.value} />}</Typography>
-                        </CardContent>
-                    </Card>
-                ))}
-                {selectedProject && (
+                {loading ? (
+                    <LoadingSpinner />
+                ) : !selectedProject ? (
+                    stats.map((stat, index) => (
+                        <Card key={index} sx={{ display: "flex", alignItems: "center", padding: 2, boxShadow: 3 }}>
+                            <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
+                                {stat.icon}
+                                <Typography variant="h6" sx={{ marginTop: 1 }}>{stat.label}</Typography>
+                                <Typography variant="h4" fontWeight={700}>
+                                    <AnimatedNumber target={stat.value} />
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    ))
+                ) : (
                     <>
                         <Card sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
                             <PiChartNeedle value={selectedProject.completionPercentage} />
@@ -128,6 +141,7 @@ const Dashboard = () => {
                         </Card>
                     </>
                 )}
+
             </Box>
             {selectedProject && (
 
