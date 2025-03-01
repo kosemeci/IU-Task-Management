@@ -10,8 +10,8 @@
 
 /admin panel
 ![image](https://github.com/user-attachments/assets/b85c5efe-0fc6-4bb9-bdcd-8665d73dc41e)
-![image](https://github.com/user-attachments/assets/9ff47ebf-c271-438b-8df1-76ea44cec686)
-![image](https://github.com/user-attachments/assets/c99fe56a-2d4f-4561-ba31-8ae6409c1b23)
+![image](https://github.com/user-attachments/assets/c3ddf381-294c-432d-9477-9fc3184c32ad)
+![image](https://github.com/user-attachments/assets/ac574e7c-b61b-41e0-9cf1-c21ae90af3d0)
 ![image](https://github.com/user-attachments/assets/270aa2cd-2ef4-4d34-bf09-02b26167b5a6)
 
 
