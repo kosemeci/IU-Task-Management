@@ -27,7 +27,6 @@ const Dashboard = () => {
         { name: "CANCELLED", value: projectStatistics['cancelledTask'] || 0, fill: "#2196f3" },
     ];
 
-
     useEffect(() => {
         if (selectedProject) {
             const getStats = async () => {
@@ -68,12 +67,12 @@ const Dashboard = () => {
     return (
         <Box sx={{ p: 3 }}>
             <FormControl fullWidth sx={{ mb: 3 }}>
-                <InputLabel>Proje Seç</InputLabel>
+                <InputLabel>{selectedProject ? 'Proje Seç' : 'Genel İstatistikler'}</InputLabel>
                 <Select
                     value={selectedProject ? selectedProject.id : ""}
                     onChange={handleProjectChange}
                 >
-                    <MenuItem value="" onClick={handleGeneralStats}>Genel İstatistikler</MenuItem>
+                    <MenuItem value="0" onClick={handleGeneralStats}>Genel İstatistikler</MenuItem>
                     {projects.map((project) => (
                         <MenuItem key={project.id} value={project.id}>{project.projectName}</MenuItem>
                     ))}
