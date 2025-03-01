@@ -14,6 +14,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import "../css/admin.css";
 import UserEditForm from "./AdminForm/UserEditForm";
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import User from "./User";
 
 function AdminPanel() {
     const [activeTab, setActiveTab] = useState("dashboard");
@@ -25,6 +26,8 @@ function AdminPanel() {
                 return <TaskForm />;
             case "dashboard":
                 return <Dashboard />;
+            case "myinfo":
+                return <User />;
             case "recordUser":
                 return <RegisterForm />;
             case "editTask":
@@ -46,7 +49,7 @@ function AdminPanel() {
                 <h2 className="admin-title"> Admin Panel</h2>
                 <ul>
                     <li className={activeTab === "dashboard" ? "active" : ""} onClick={() => setActiveTab("dashboard")}><DashboardIcon /> Dashboard</li>
-                    <li className={activeTab === "myInfo" ? "active" : ""} onClick={() => setActiveTab("myInfo")}><InfoIcon /> My Info</li>
+                    <li className={activeTab === "myInfo" ? "active" : ""} onClick={() => setActiveTab("myinfo")}><InfoIcon /> My Info</li>
                     <li className={activeTab === "recordUser" ? "active" : ""} onClick={() => setActiveTab("recordUser")}><PersonAddAltIcon /> Register New User</li>
                     <li className={activeTab === "editUser" ? "active" : ""} onClick={() => setActiveTab("editUser")}><ManageAccountsIcon /> Edit User</li>
                     <li className={activeTab === "createTask" ? "active" : ""} onClick={() => setActiveTab("createTask")}><AddTaskOutlinedIcon /> Create Task</li>

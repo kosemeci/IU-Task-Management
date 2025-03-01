@@ -4,10 +4,7 @@ import axios from 'axios'
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-
-// const BASE_URL = "https://jsonplaceholder.typicode.com/users";
 const BASE_URL = "http://localhost:8080/user-management/user";
-
 
 function User() {
 
@@ -46,7 +43,6 @@ function User() {
     setTitle(newTitle);
     setSelectTitle(index);
     console.log(user);
-
   }
 
   const renderPage = (number) => {
