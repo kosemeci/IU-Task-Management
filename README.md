@@ -8,8 +8,13 @@
 /task page
 ![image](https://github.com/user-attachments/assets/ec9a982e-0d7a-4205-9c46-8759d5f839c0)
 
-/admin page
-![image](https://github.com/user-attachments/assets/bf476be9-7ac1-4dec-bdca-e115a7dde858)
+/admin panel
+![image](https://github.com/user-attachments/assets/b85c5efe-0fc6-4bb9-bdcd-8665d73dc41e)
+![image](https://github.com/user-attachments/assets/c3ddf381-294c-432d-9477-9fc3184c32ad)
+![image](https://github.com/user-attachments/assets/ac574e7c-b61b-41e0-9cf1-c21ae90af3d0)
+![image](https://github.com/user-attachments/assets/270aa2cd-2ef4-4d34-bf09-02b26167b5a6)
+
+
 
 /user page 
 ![image](https://github.com/user-attachments/assets/25febc3a-4430-4463-8fa8-5c665fa4e8c9)
