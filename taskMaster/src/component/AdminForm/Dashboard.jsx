@@ -5,18 +5,19 @@ import PiChartNeedle from "../Rechart/PiChartNeedle";
 import AnimatedNumber from "./AnimatedNumber";
 import BarCharts from "../Rechart/BarCharts";
 import { getAllProject } from "../Api/projects";
-import { getProjectStatistics } from "../Api/ProjectStatistics";
+import { getProjectStatistics, getProjectGeneralStatistics } from "../Api/ProjectStatistics";
 
 const Dashboard = () => {
     const [selectedProject, setSelectedProject] = useState(null);
     const [projects, setProjects] = useState([]);
     const [projectStatistics, setProjectStats] = useState({});
+    const [projectGenStats, setProjectGenStats] = useState({});
 
     const stats = [
-        { label: "Toplam Proje Sayısı", value: projects.length, icon: <Business fontSize="large" color="primary" /> },
-        { label: "Toplam Görev Sayısı", value: 120, icon: <List fontSize="large" color="primary" /> },
-        { label: "Toplam Kullanıcı Sayısı", value: 50, icon: <Group fontSize="large" color="info" /> },
-        { label: "Admin Sayısı", value: 5, icon: <AdminPanelSettings fontSize="large" color="secondary" /> },
+        { label: "Toplam Proje Sayısı", value: projectGenStats['totalProject'], icon: <Business fontSize="large" color="primary" /> },
+        { label: "Toplam Görev Sayısı", value: projectGenStats['totalTask'], icon: <List fontSize="large" color="primary" /> },
+        { label: "Toplam Kullanıcı Sayısı", value: projectGenStats['totalUser'], icon: <Group fontSize="large" color="info" /> },
+        { label: "Admin Sayısı", value: projectGenStats['totalAdmin'], icon: <AdminPanelSettings fontSize="large" color="secondary" /> },
     ];
 
     const chartData = [
@@ -47,6 +48,8 @@ const Dashboard = () => {
             try {
                 const result = await getAllProject();
                 setProjects(result);
+                const response = await getProjectGeneralStatistics();
+                setProjectGenStats(response);
             } catch (error) {
                 console.error("Error fetching data in component", error);
             }
