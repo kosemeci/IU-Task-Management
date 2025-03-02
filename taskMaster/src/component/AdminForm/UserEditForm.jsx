@@ -10,9 +10,10 @@ import TableRow from '@mui/material/TableRow';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { TextField } from '@mui/material';
 
 const columns = [
-    // { id: 'id', label: 'id', minWidth: 20 },
+    { id: 'id', label: 'id', minWidth: 20 },
     { id: 'firstName', label: 'First Name', minWidth: 120 },
     {
         id: 'lastName',
@@ -51,11 +52,13 @@ const columns = [
     },
 ];
 
-
 function StickyHeadTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [rows, setRows] = useState([]);
+    const [editingRow, setEditingRow] = useState(null);
+    const [editingColumn, setEditingColumn] = useState(null);
+    const [editedValue, setEditedValue] = useState("");
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -75,10 +78,10 @@ function StickyHeadTable() {
                 withCredentials: true,
                 timeout: 20000
             });
-            console.log(response.data);
+            // console.log(response.data);
             const userList = response.data.map((user) => (
                 {
-                    // id: user.id,
+                    id: user.id,
                     firstName: user.firstName,
                     lastName: user.lastName,
                     mail: user.mailAdress,
@@ -97,6 +100,19 @@ function StickyHeadTable() {
     useEffect(() => {
         fetchUsers();
     }, [])
+
+    const handleEdit = ((row, column) => {
+        setEditingRow(row.id);
+        setEditingColumn(column.id)
+        setEditedValue(row[column.id]);
+    })
+
+    const handleSave = ((id) => {
+        console.log(editingColumn + " " + editedValue);
+        setRows(rows.map(row => row.id === id ? { ...row, [editingColumn]: editedValue } : row));
+        setEditingRow(null);
+        setEditingColumn(null);
+    })
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -124,10 +140,31 @@ function StickyHeadTable() {
                                         {columns.map((column) => {
                                             const value = row[column.id];
                                             return (
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {column.format && typeof value === 'number'
-                                                        ? column.format(value)
-                                                        : value}
+                                                <TableCell key={column.id} align={column.align} onClick={() => handleEdit(row, column)} >
+                                                    {editingRow === row.id && editingColumn === column.id ? (
+                                                        <TextField
+                                                            sx={{ padding: 0, height: "auto", margin: 0 }}
+                                                            size="small"
+                                                            margin='none'
+                                                            value={editedValue}
+                                                            onChange={(e) => setEditedValue(e.target.value)}
+                                                            onBlur={() => handleSave(row.id)}
+                                                            onKeyDown={(e) => {
+                                                                if (e.key === 'Enter') {
+                                                                    handleSave(row.id)
+                                                                }
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <>
+                                                            {
+                                                                column.format && typeof value === 'number'
+                                                                    ? column.format(value)
+                                                                    : value
+                                                            }
+
+                                                        </>
+                                                    )}
                                                 </TableCell>
                                             );
                                         })}
