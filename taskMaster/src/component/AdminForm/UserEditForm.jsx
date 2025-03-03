@@ -18,38 +18,28 @@ const columns = [
     { id: 'id', label: 'id', minWidth: 20 },
     { id: 'firstName', label: 'First Name', minWidth: 120 },
     {
-        id: 'lastName',
-        label: 'Last Name',
-        minWidth: 120,
-        align: 'left',
+        id: 'lastName', label: 'Last Name',
+        minWidth: 120, align: 'left',
         format: (value) => value.toLocaleString('en-US'),
     },
     {
-        id: 'mail',
-        label: 'Mail Addres',
-        minWidth: 130,
-        align: 'left',
+        id: 'mailAdress', label: 'Mail Address',
+        minWidth: 130, align: 'left',
         format: (value) => value.toLocaleString('en-US'),
     },
     {
-        id: 'telNo',
-        label: 'Tel No',
-        minWidth: 90,
-        align: 'left',
+        id: 'telNo', label: 'Tel No',
+        minWidth: 90, align: 'left',
         format: (value) => value.toFixed(2),
     },
     {
-        id: 'role',
-        label: 'Role',
-        minWidth: 50,
-        align: 'left',
+        id: 'role', label: 'Role',
+        minWidth: 50, align: 'left',
         format: (value) => value.toFixed(2),
     },
     {
-        id: 'position',
-        label: 'Position',
-        minWidth: 120,
-        align: 'left',
+        id: 'position', label: 'Position',
+        minWidth: 120, align: 'left',
         format: (value) => value.toFixed(2),
     },
 ];
@@ -87,7 +77,7 @@ function StickyHeadTable() {
                     id: user.id,
                     firstName: user.firstName,
                     lastName: user.lastName,
-                    mail: user.mailAdress,
+                    mailAdress: user.mailAdress,
                     telNo: '05380209916',
                     role: user.role,
                     position: user.position
@@ -143,9 +133,26 @@ function StickyHeadTable() {
         return editedCells[rowId]?.[columnId] ? 'green' : 'black';
     };
 
-    const saveAllChanges = () => {
-        console.log(JSON.stringify(editedCells));
-    }
+    const saveAllChanges = async () => {
+        const updatedData = Object.entries(editedCells).map(([id, changes]) => ({
+            id: Number(id),
+            ...changes
+        }));
+
+        try {
+            const response = await axios.put('http://localhost:8080/user-management/user/update',
+                updatedData,
+                {
+                    withCredentials: true,
+                    timeout: 30000
+                }
+            );
+            // console.log(response.data);
+            setEditedCells({});
+        } catch (error) {
+            console.error('Error updating users:', error);
+        }
+    };
 
     const deleteAllChanges = () => {
         setEditedCells({});
