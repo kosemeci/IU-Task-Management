@@ -10,7 +10,9 @@ import TableRow from '@mui/material/TableRow';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { TextField } from '@mui/material';
+import { Button, Stack, TextField } from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const columns = [
     { id: 'id', label: 'id', minWidth: 20 },
@@ -58,7 +60,10 @@ function StickyHeadTable() {
     const [rows, setRows] = useState([]);
     const [editingRow, setEditingRow] = useState(null);
     const [editingColumn, setEditingColumn] = useState(null);
-    const [editedValue, setEditedValue] = useState("");
+    const [editedValue, setEditedValue] = useState(null);
+    const [editedCells, setEditedCells] = useState({});
+
+
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -102,88 +107,118 @@ function StickyHeadTable() {
     }, [])
 
     const handleEdit = ((row, column) => {
+
         setEditingRow(row.id);
         setEditingColumn(column.id)
         setEditedValue(row[column.id]);
     })
 
-    const handleSave = ((id) => {
-        console.log(editingColumn + " " + editedValue);
+    const handleSave = ((id, columnId) => {
         setRows(rows.map(row => row.id === id ? { ...row, [editingColumn]: editedValue } : row));
         setEditingRow(null);
         setEditingColumn(null);
+
+        setEditedCells(prev => ({
+            ...prev,
+            [id]: { ...(prev[id] || {}), [columnId]: editedValue }
+        }));
     })
 
-    return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                            {columns.map((column) => (
-                                <TableCell
-                                    key={column.id}
-                                    align={column.align}
-                                    style={{ minWidth: column.minWidth }}
-                                >
-                                    {column.label}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row) => {
-                                return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                                        {columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell key={column.id} align={column.align} onClick={() => handleEdit(row, column)} >
-                                                    {editingRow === row.id && editingColumn === column.id ? (
-                                                        <TextField
-                                                            sx={{ padding: 0, height: "auto", margin: 0 }}
-                                                            size="small"
-                                                            margin='none'
-                                                            value={editedValue}
-                                                            onChange={(e) => setEditedValue(e.target.value)}
-                                                            onBlur={() => handleSave(row.id)}
-                                                            onKeyDown={(e) => {
-                                                                if (e.key === 'Enter') {
-                                                                    handleSave(row.id)
-                                                                }
-                                                            }}
-                                                        />
-                                                    ) : (
-                                                        <>
-                                                            {
-                                                                column.format && typeof value === 'number'
-                                                                    ? column.format(value)
-                                                                    : value
-                                                            }
+    const getColor = (rowId, columnId) => {
+        return editedCells[rowId]?.[columnId] ? 'green' : 'black';
+    };
 
-                                                        </>
-                                                    )}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-        </Paper>
+    const saveAllChanges = () => {
+        console.log(JSON.stringify(editedCells));
+    }
+
+    const deleteAllChanges = () => {
+        setEditedCells({});
+    }
+
+    return (
+        <>
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <TableContainer sx={{ maxHeight: 440 }}>
+                    <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((column) => (
+                                    <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{ minWidth: column.minWidth }}
+                                    >
+                                        {column.label}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((row) => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                            {columns.map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell sx={{ color: getColor(row.id, column.id) }} key={column.id} align={column.align} onClick={() => handleEdit(row, column)} >
+                                                        {editingRow === row.id && editingColumn === column.id ? (
+                                                            <TextField
+                                                                sx={{ padding: 0, height: "auto", margin: 0 }}
+                                                                size="small"
+                                                                margin='none'
+                                                                padding='0'
+                                                                value={editedValue}
+                                                                autoFocus
+                                                                onChange={(e) => setEditedValue(e.target.value)}
+                                                                onBlur={() => handleSave(row.id, column.id)}
+                                                                onKeyDown={(e) => {
+                                                                    if (e.key === 'Enter') {
+                                                                        handleSave(row.id, column.id)
+                                                                    }
+                                                                }}
+                                                                inputProps={{
+                                                                    style: { padding: 4 }, // Yalnızca içeriğin padding'ini sıfırlar
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            <>
+                                                                {
+                                                                    column.format && typeof value === 'number'
+                                                                        ? column.format(value)
+                                                                        : value
+                                                                }
+
+                                                            </>
+                                                        )}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[10, 25, 100]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+            </Paper>
+            <Stack direction="row" spacing={2} sx={{ marginTop: 2 }} justifyContent={'flex-end'}>
+                <Button variant="contained" color='error' size='small' onClick={() => deleteAllChanges()}>Delete <DeleteIcon style={{ 'marginLeft': '4px', 'fontSize': '16px' }} /> </Button>
+                <Button variant="contained" color='success' size='small' onClick={() => saveAllChanges()}> Save <SaveIcon style={{ 'marginLeft': '4px', 'fontSize': '16px' }} /></Button>
+
+            </Stack>
+
+        </>
     );
 }
 
