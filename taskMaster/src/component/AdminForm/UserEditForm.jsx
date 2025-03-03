@@ -63,8 +63,6 @@ function StickyHeadTable() {
     const [editedValue, setEditedValue] = useState(null);
     const [editedCells, setEditedCells] = useState({});
 
-
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -107,7 +105,6 @@ function StickyHeadTable() {
     }, [])
 
     const handleEdit = ((row, column) => {
-
         setEditingRow(row.id);
         setEditingColumn(column.id)
         setEditedValue(row[column.id]);
@@ -123,6 +120,24 @@ function StickyHeadTable() {
             [id]: { ...(prev[id] || {}), [columnId]: editedValue }
         }));
     })
+
+    const handleValueChange = (e, row, column) => {
+        let newValue = e.target.value;
+
+        if (column.id === 'telNo') {
+            if (!/^\d*$/.test(newValue)) {
+                return;
+            }
+            if (newValue.length > 11) {
+                return;
+            }
+        } else if (column.id === 'firstName' || column.id === 'lastName' || column.id === 'role') {
+            if (!/^[a-zA-Z\s]*$/.test(newValue)) {
+                return; // Eğer harf ve boşluk dışında bir şey girildiyse, değişikliği engelle
+            }
+        }
+        setEditedValue(newValue);
+    };
 
     const getColor = (rowId, columnId) => {
         return editedCells[rowId]?.[columnId] ? 'green' : 'black';
@@ -172,7 +187,7 @@ function StickyHeadTable() {
                                                                 padding='0'
                                                                 value={editedValue}
                                                                 autoFocus
-                                                                onChange={(e) => setEditedValue(e.target.value)}
+                                                                onChange={(e) => handleValueChange(e, row, column)}
                                                                 onBlur={() => handleSave(row.id, column.id)}
                                                                 onKeyDown={(e) => {
                                                                     if (e.key === 'Enter') {
@@ -180,7 +195,7 @@ function StickyHeadTable() {
                                                                     }
                                                                 }}
                                                                 inputProps={{
-                                                                    style: { padding: 4 }, // Yalnızca içeriğin padding'ini sıfırlar
+                                                                    style: { padding: 4 },
                                                                 }}
                                                             />
                                                         ) : (
@@ -215,9 +230,7 @@ function StickyHeadTable() {
             <Stack direction="row" spacing={2} sx={{ marginTop: 2 }} justifyContent={'flex-end'}>
                 <Button variant="contained" color='error' size='small' onClick={() => deleteAllChanges()}>Delete <DeleteIcon style={{ 'marginLeft': '4px', 'fontSize': '16px' }} /> </Button>
                 <Button variant="contained" color='success' size='small' onClick={() => saveAllChanges()}> Save <SaveIcon style={{ 'marginLeft': '4px', 'fontSize': '16px' }} /></Button>
-
             </Stack>
-
         </>
     );
 }
