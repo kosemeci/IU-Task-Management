@@ -28,7 +28,7 @@ const columns = [
         format: (value) => value.toLocaleString('en-US'),
     },
     {
-        id: 'telNo', label: 'Tel No',
+        id: 'telNumber', label: 'Tel Number',
         minWidth: 90, align: 'left',
         format: (value) => value.toFixed(2),
     },
@@ -78,7 +78,7 @@ function StickyHeadTable() {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     mailAdress: user.mailAdress,
-                    telNo: '05380209916',
+                    telNumber: user.telNumber,
                     role: user.role,
                     position: user.position
                 }
@@ -212,7 +212,6 @@ function StickyHeadTable() {
                                                                         ? column.format(value)
                                                                         : value
                                                                 }
-
                                                             </>
                                                         )}
                                                     </TableCell>
