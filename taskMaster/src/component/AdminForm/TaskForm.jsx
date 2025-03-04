@@ -1,18 +1,32 @@
 import { useState } from "react";
 import '../../css/admin.css';
+import axios from "axios";
 
 function TaskForm() {
     const [task, setTask] = useState({
-        title: "",
-        priority: "",
+        taskTitle: "",
+        priority: "LOW",
         description: "",
         deadline: ""
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("New Task:", task);
-        setTask({ title: "", priority: "", description: "", deadline: "" });
+        try {
+            const response = await axios.post('http://localhost:8080/task-management/task/create', {
+                "taskTitle": task.taskTitle,
+                "priority": task.priority,
+                "description": task.description,
+                "deadline": task.deadline
+            }, {
+                withCredentials: true,
+                timeout: 3000,
+            })
+            console.log(response.data)
+            setTask({ taskTitle: "", priority: "LOW", description: "", deadline: "" });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -25,8 +39,8 @@ function TaskForm() {
                     <input
                         type="text"
                         placeholder="e.g., Develop Web API"
-                        value={task.title}
-                        onChange={(e) => setTask({ ...task, title: e.target.value })}
+                        value={task.taskTitle}
+                        onChange={(e) => setTask({ ...task, taskTitle: e.target.value })}
                         className="form-input"
                         required
                     />
@@ -40,9 +54,9 @@ function TaskForm() {
                         className="form-input"
                         required
                     >
-                        <option value="Low">LOW</option>
-                        <option value="Medium">MEDIUM</option>
-                        <option value="High">HIGH</option>
+                        <option value="LOW" >LOW</option>
+                        <option value="MEDIUM">MEDIUM</option>
+                        <option value="HIGH">HIGH</option>
                     </select>
                 </div>
 
