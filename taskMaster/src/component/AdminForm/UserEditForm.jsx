@@ -72,7 +72,8 @@ function StickyHeadTable() {
                 timeout: 20000
             });
             // console.log(response.data);
-            const userList = response.data.map((user) => (
+            const sortedUserList = response.data.sort((a, b) => a.id - b.id);
+            const userList = sortedUserList.map((user) => (
                 {
                     id: user.id,
                     firstName: user.firstName,
