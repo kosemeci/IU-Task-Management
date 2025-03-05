@@ -30,7 +30,7 @@ function TaskForm() {
                 withCredentials: true,
                 timeout: 3000,
             })
-            console.log(response.data)
+            // console.log(response.data)
             setTask({ taskTitle: "", priority: "LOW", description: "", deadline: "", project: "" });
         } catch (error) {
             console.log(error);
@@ -120,16 +120,12 @@ function TaskForm() {
                         {project && project.map((pr) => (
                             <option key={pr.title} value={pr.id} >{pr.id} - {pr.title}</option>
                         ))}
-                        {/* <option value={1} >1 - Task Management System</option>
-                        <option value={2} >2 - React.js Yolculuğu </option>
-                        <option value={3} >3 - Learning English Path</option> */}
                     </select>
                 </div>
 
                 <button type="submit" className="submit-button">
                     Save
                 </button>
-
             </form>
         </div>
     );
