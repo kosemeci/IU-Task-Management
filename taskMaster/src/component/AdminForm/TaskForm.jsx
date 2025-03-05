@@ -117,8 +117,8 @@ function TaskForm() {
                         required
                     >
                         <option disabled value={""}> Please Select a Project</option>
-                        {projects && projects.map((pr) => (
-                            <option key={pr.id} value={pr.id} >{pr.id} - {pr.title}</option>
+                        {projects && projects.map((pr, index) => (
+                            <option key={pr.id} value={pr.id} >{++index} - {pr.title}</option>
                         ))}
                     </select>
                 </div>

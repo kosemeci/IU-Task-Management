@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TaskForm from "./AdminForm/TaskForm";
 import RegisterForm from "./AdminForm/RegisterForm";
-import ProjectForm from "./AdminForm/ProjectForm";
+import ProjectForm from "./AdminForm/ProjectCreateForm";
 import Dashboard from "./AdminForm/Dashboard";
 import EditTaskForm from "./TableTask"
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
@@ -34,12 +34,10 @@ function AdminPanel() {
                 return <EditTaskForm />;
             case "projects":
                 return <div><h3>Projects</h3><p>You can view the projects here.</p></div>;
-            case "myInfo":
-                return <div><h3>Info</h3><p>You can view the projects here.</p></div>;
             case "editUser":
                 return <UserEditForm />;
             default:
-                return <ProjectForm />;
+                return <Dashboard />;
         }
     };
 
