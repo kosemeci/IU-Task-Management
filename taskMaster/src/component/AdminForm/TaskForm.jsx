@@ -1,33 +1,58 @@
 import { useState } from "react";
 import '../../css/admin.css';
 import axios from "axios";
+import MenuItem from '@mui/material/MenuItem';
+import { getAllProject } from "../Api/projects";
+import { useEffect } from "react";
+
 
 function TaskForm() {
     const [task, setTask] = useState({
         taskTitle: "",
         priority: "LOW",
         description: "",
-        deadline: ""
+        deadline: "",
+        project: "",
     });
+    const [project, setProject] = useState([])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8080/task-management/task/create', {
-                "taskTitle": task.taskTitle,
-                "priority": task.priority,
-                "description": task.description,
-                "deadline": task.deadline
-            }, {
-                withCredentials: true,
-                timeout: 3000,
-            })
-            console.log(response.data)
-            setTask({ taskTitle: "", priority: "LOW", description: "", deadline: "" });
-        } catch (error) {
-            console.log(error);
-        }
+        console.log(task);
+        // try {
+        //     const response = await axios.post('http://localhost:8080/task-management/task/create', {
+        //         "taskTitle": task.taskTitle,
+        //         "priority": task.priority,
+        //         "description": task.description,
+        //         "deadline": task.deadline,
+        //         "project_id": task.project
+        //     }, {
+        //         withCredentials: true,
+        //         timeout: 3000,
+        //     })
+        //     console.log(response.data)
+        //     setTask({ taskTitle: "", priority: "LOW", description: "", deadline: "",project:"" });
+        // } catch (error) {
+        //     console.log(error);
+        // }
     };
+
+    useEffect(() => {
+        const getProjectList = async () => {
+            try {
+                const response = await getAllProject();
+                const filteredProject = response.map((data) => ({
+                    "id": data.id,
+                    "title": data.projectName
+                })).sort((a, b) => a.id - b.id);
+                setProject(filteredProject);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getProjectList();
+
+    }, [project])
 
     return (
         <div className="form-container">
@@ -81,6 +106,24 @@ function TaskForm() {
                         className="form-input"
                         required
                     />
+                </div>
+
+                <div className="form-group">
+                    <label className="form-label">Project:</label>
+                    <select
+                        value={task.project}
+                        onChange={(e) => setTask({ ...task, project: e.target.value })}
+                        className="form-input"
+                        required
+                    >
+                        <option disabled value={""}> Please Select a Project</option>
+                        {project && project.map((pr) => (
+                            <option key={pr.title} value={pr.id} >{pr.id} - {pr.title}</option>
+                        ))}
+                        {/* <option value={1} >1 - Task Management System</option>
+                        <option value={2} >2 - React.js Yolculuğu </option>
+                        <option value={3} >3 - Learning English Path</option> */}
+                    </select>
                 </div>
 
                 <button type="submit" className="submit-button">
