@@ -1,5 +1,6 @@
 import { useState } from "react";
 import '../../css/admin.css';
+import axios from "axios";
 
 function ProjectForm() {
     const [project, setProject] = useState({
@@ -7,15 +8,27 @@ function ProjectForm() {
         description: ""
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("New Project:", project);
+        try {
+            await axios.post('http://localhost:8080/project-management/project/create', {
+                "projectName": project.name,
+                "description": project.description
+            }, {
+                withCredentials: true,
+                timeout: 25000
+            })
+            // console.log(response.data);
+        } catch (error) {
+            console.error("Error creating project:", error.response?.data || error.message);
+        }
+        // console.log("New Project:", project);
         setProject({ name: "", description: "" });
     };
 
     return (
         <div className="form-container">
-            <h2 className="form-title">📌 Create New Project</h2>
+            <h2 className="form-title"> Create New Project</h2>
             <form onSubmit={handleSubmit} className="project-form">
 
                 <div className="form-group">
