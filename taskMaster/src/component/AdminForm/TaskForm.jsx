@@ -18,23 +18,23 @@ function TaskForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(task);
-        // try {
-        //     const response = await axios.post('http://localhost:8080/task-management/task/create', {
-        //         "taskTitle": task.taskTitle,
-        //         "priority": task.priority,
-        //         "description": task.description,
-        //         "deadline": task.deadline,
-        //         "project_id": task.project
-        //     }, {
-        //         withCredentials: true,
-        //         timeout: 3000,
-        //     })
-        //     console.log(response.data)
-        //     setTask({ taskTitle: "", priority: "LOW", description: "", deadline: "",project:"" });
-        // } catch (error) {
-        //     console.log(error);
-        // }
+        // console.log(task);
+        try {
+            const response = await axios.post('http://localhost:8080/task-management/task/create', {
+                "taskTitle": task.taskTitle,
+                "priority": task.priority,
+                "description": task.description,
+                "deadline": task.deadline,
+                "projectId": task.project
+            }, {
+                withCredentials: true,
+                timeout: 3000,
+            })
+            console.log(response.data)
+            setTask({ taskTitle: "", priority: "LOW", description: "", deadline: "", project: "" });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     useEffect(() => {
@@ -52,7 +52,7 @@ function TaskForm() {
         }
         getProjectList();
 
-    }, [project])
+    }, [])
 
     return (
         <div className="form-container">
