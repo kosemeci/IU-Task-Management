@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TaskForm from "./AdminForm/TaskForm";
+import TaskCreateForm from "./AdminForm/TaskCreateForm";
 import RegisterForm from "./AdminForm/RegisterForm";
 import ProjectForm from "./AdminForm/ProjectCreateForm";
 import Dashboard from "./AdminForm/Dashboard";
@@ -11,11 +11,11 @@ import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
 import InfoIcon from '@mui/icons-material/Info';
-import "../css/admin.css";
 import UserEditForm from "./AdminForm/UserEditForm";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import User from "./User";
 import ProjectEditForm from "./AdminForm/ProjectEditForm";
+import "../css/admin.css";
 
 function AdminPanel() {
     const [activeTab, setActiveTab] = useState("dashboard");
@@ -23,20 +23,22 @@ function AdminPanel() {
     // İçerik bileşenlerini dinamik olarak çağırma
     const renderContent = () => {
         switch (activeTab) {
-            case "createTask":
-                return <TaskForm />;
             case "dashboard":
                 return <Dashboard />;
             case "myinfo":
                 return <User />;
             case "recordUser":
                 return <RegisterForm />;
+            case "editUser":
+                return <UserEditForm />;
+            case "createTask":
+                return <TaskCreateForm />;
             case "editTask":
                 return <EditTaskForm />;
             case "projects":
                 return <ProjectEditForm />
-            case "editUser":
-                return <UserEditForm />;
+            case "createProject":
+                return <ProjectForm />
             default:
                 return <Dashboard />;
         }
@@ -54,7 +56,7 @@ function AdminPanel() {
                     <li className={activeTab === "createTask" ? "active" : ""} onClick={() => setActiveTab("createTask")}><AddTaskOutlinedIcon /> Create Task</li>
                     <li className={activeTab === "editTask" ? "active" : ""} onClick={() => setActiveTab("editTask")}><CreateOutlinedIcon /> Edit Task</li>
                     <li className={activeTab === "projects" ? "active" : ""} onClick={() => setActiveTab("projects")}><FolderOutlinedIcon /> Projects</li>
-                    <li className={activeTab === "newProject" ? "active" : ""} onClick={() => setActiveTab("newProject")}><CreateNewFolderOutlinedIcon /> Create Project</li>
+                    <li className={activeTab === "createProject" ? "active" : ""} onClick={() => setActiveTab("createProject")}><CreateNewFolderOutlinedIcon /> Create Project</li>
                 </ul>
             </div>
 

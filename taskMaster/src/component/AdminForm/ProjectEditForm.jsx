@@ -1,61 +1,92 @@
-import { getAllProject } from "../Api/projects"
-import { useEffect } from "react"
-import { useState } from "react"
-
-const columns = [
-    { id: 'id', label: '#', minWidth: 20 },
-    { id: 'name', label: 'Name', minWidth: 120 },
-    { id: 'description', label: 'Desc', minWidth: 150 },
-    { id: 'progress', label: 'Progress', minWidth: 80 },
-    { id: 'createdDatae', label: 'Created Date', minWidth: 100 },
-    { id: 'taskCount', label: 'Task Count', minWidth: 60 }
-]
+import { getAllProject } from "../Api/projects";
+import { useEffect, useState } from "react";
+import { FormControl, InputLabel, MenuItem, Select, TextField, Button } from "@mui/material";
+import "../../css/admin.css";
 
 const ProjectEditForm = () => {
-
     const [projects, setProjects] = useState([]);
+    const [selectedProject, setSelectedProject] = useState("");
 
     const fetchProjects = async () => {
         try {
             const response = await getAllProject();
-            const projectList = response.map((res) => (
-                {
-                    id: res.id,
-                    name: res.projectName,
-                    description: res.description,
-                    progress: res.completionPercentage,
-                    createdDate: res.createdDate,
-                    taskCount: res.task.length,
-                }
-            ));
+            const projectList = response.map((res) => ({
+                id: res.id,
+                name: res.projectName,
+                description: res.description,
+                progress: res.completionPercentage,
+                createdDate: res.createdDate,
+                taskCount: res.task.length,
+            }));
             setProjects(projectList);
-            // console.log(response);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
-    }
+    };
 
     useEffect(() => {
         fetchProjects();
-    }, [])
+    }, []);
 
-    const handleClick = () => {
-        console.log(projects)
-    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Selected Project ID:", selectedProject);
+    };
 
     return (
-        <div>
-            {projects && projects.map((pro, index) => (
+        <div className="form-container">
+            <h2 className="form-title">Update Project</h2>
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
 
-                <div key={pro.id}>
-                    <p >
-                        {index}-{pro.name} - {pro.description}
-                    </p>
-                </div>
+                <FormControl fullWidth>
+                    <InputLabel>Select Project</InputLabel>
+                    <Select
+                        value={selectedProject}
+                        onChange={(e) => setSelectedProject(e.target.value)}
+                        required
+                    >
+                        <MenuItem disabled value="">Please Select a Project</MenuItem>
+                        {projects.map((proj, index) => (
+                            <MenuItem key={proj.id} value={proj.id}>
+                                {index + 1} - {proj.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
-            ))}
+                <TextField
+                    label="Project Description"
+                    variant="outlined"
+                    fullWidth
+                    multiline
+                    rows={3}
+                    value={projects.find(p => p.id === selectedProject)?.description || ""}
+                    disabled
+                />
+
+                <TextField
+                    label="Progress"
+                    variant="outlined"
+                    fullWidth
+                    type="number"
+                    value={projects.find(p => p.id === selectedProject)?.progress || ""}
+                    disabled
+                />
+
+                <TextField
+                    label="Task Count"
+                    variant="outlined"
+                    fullWidth
+                    value={projects.find(p => p.id === selectedProject)?.taskCount || ""}
+                    disabled
+                />
+
+                <Button type="submit" variant="contained" color="primary" fullWidth>
+                    Edit Project
+                </Button>
+            </form>
         </div>
-    )
-}
+    );
+};
 
 export default ProjectEditForm;
