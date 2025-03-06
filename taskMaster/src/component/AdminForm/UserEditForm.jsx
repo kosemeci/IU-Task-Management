@@ -141,7 +141,7 @@ function StickyHeadTable() {
         }));
 
         try {
-            const response = await axios.put('http://localhost:8080/user-management/user/update',
+            await axios.put('http://localhost:8080/user-management/user/update',
                 updatedData,
                 {
                     withCredentials: true,

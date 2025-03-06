@@ -15,6 +15,7 @@ import "../css/admin.css";
 import UserEditForm from "./AdminForm/UserEditForm";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import User from "./User";
+import ProjectEditForm from "./AdminForm/ProjectEditForm";
 
 function AdminPanel() {
     const [activeTab, setActiveTab] = useState("dashboard");
@@ -33,7 +34,7 @@ function AdminPanel() {
             case "editTask":
                 return <EditTaskForm />;
             case "projects":
-                return <div><h3>Projects</h3><p>You can view the projects here.</p></div>;
+                return <ProjectEditForm />
             case "editUser":
                 return <UserEditForm />;
             default:

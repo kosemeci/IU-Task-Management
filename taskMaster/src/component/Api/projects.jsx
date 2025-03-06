@@ -9,7 +9,8 @@ export const getAllProject = async () => {
             withCredentials: true,
             timeout: 25000
         });
-        return response.data;
+        const sortedResponse = response.data.sort((a, b) => a.id - b.id);
+        return sortedResponse;
     } catch (error) {
         console.log(error)
     }
