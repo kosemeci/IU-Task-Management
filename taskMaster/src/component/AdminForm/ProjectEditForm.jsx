@@ -2,10 +2,19 @@ import { getAllProject } from "../Api/projects";
 import { useEffect, useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select, TextField, Button } from "@mui/material";
 import "../../css/admin.css";
+import axios from "axios";
 
 const ProjectEditForm = () => {
     const [projects, setProjects] = useState([]);
-    const [selectedProject, setSelectedProject] = useState("");
+    const [selectId, setSelectId] = useState("");
+    const [selectedProject, setSelectedProject] = useState({
+        id: "",
+        name: "",
+        description: "",
+        progress: "",
+        taskCount: "",
+        createdDate: ""
+    });
 
     const fetchProjects = async () => {
         try {
@@ -28,10 +37,35 @@ const ProjectEditForm = () => {
         fetchProjects();
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Selected Project ID:", selectedProject);
+        // console.log("Selected Project ID:", selectedProject);
+        try {
+            const response = await axios.put('http://localhost:8080/project-management/project/update',
+                {
+                    "id": selectedProject.id,
+                    "projectName": selectedProject.name,
+                    "description": selectedProject.description,
+                },
+                {
+                    withCredentials: true,
+                    timeout: 30000
+                })
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+        setSelectedProject({});
     };
+
+    const handleChangeSelect = (e) => {
+        e.preventDefault();
+        const selectedId = e.target.value;
+        setSelectId(selectedId);
+        const currentProject = projects.find((p) => (p.id === selectedId));
+        setSelectedProject(currentProject);
+    }
+
 
     return (
         <div className="form-container">
@@ -41,11 +75,10 @@ const ProjectEditForm = () => {
                 <FormControl fullWidth>
                     <InputLabel>Select Project</InputLabel>
                     <Select
-                        value={selectedProject}
-                        onChange={(e) => setSelectedProject(e.target.value)}
+                        value={selectId}
+                        onChange={(e) => handleChangeSelect(e)}
                         required
                     >
-                        <MenuItem disabled value="">Please Select a Project</MenuItem>
                         {projects.map((proj, index) => (
                             <MenuItem key={proj.id} value={proj.id}>
                                 {index + 1} - {proj.name}
@@ -54,32 +87,53 @@ const ProjectEditForm = () => {
                     </Select>
                 </FormControl>
 
-                <TextField
-                    label="Project Description"
-                    variant="outlined"
-                    fullWidth
-                    multiline
-                    rows={3}
-                    value={projects.find(p => p.id === selectedProject)?.description || ""}
-                    disabled
-                />
+                {selectedProject.id && (
+                    <>
+                        <TextField
+                            label="Project Name"
+                            variant="outlined"
+                            fullWidth
+                            multiline
+                            value={selectedProject.name}
+                            onChange={(e) => setSelectedProject({ ...selectedProject, name: e.target.value })}
+                        />
 
-                <TextField
-                    label="Progress"
-                    variant="outlined"
-                    fullWidth
-                    type="number"
-                    value={projects.find(p => p.id === selectedProject)?.progress || ""}
-                    disabled
-                />
+                        < TextField
+                            label="Project Description"
+                            variant="outlined"
+                            fullWidth
+                            multiline
+                            rows={3}
+                            value={selectedProject.description}
+                            onChange={(e) => setSelectedProject({ ...selectedProject, description: e.target.value })}
 
-                <TextField
-                    label="Task Count"
-                    variant="outlined"
-                    fullWidth
-                    value={projects.find(p => p.id === selectedProject)?.taskCount || ""}
-                    disabled
-                />
+                        />
+
+                        <TextField
+                            label="Created Date"
+                            variant="outlined"
+                            fullWidth
+                            value={selectedProject.createdDate}
+                            disabled
+                        />
+                        <TextField
+                            label="Progress %"
+                            variant="outlined"
+                            fullWidth
+                            type="number"
+                            value={selectedProject.progress}
+                            disabled
+                        />
+                        <TextField
+                            label="Task Count"
+                            variant="outlined"
+                            fullWidth
+                            value={selectedProject.taskCount}
+                            disabled
+                        />
+
+                    </>
+                )}
 
                 <Button type="submit" variant="contained" color="primary" fullWidth>
                     Edit Project

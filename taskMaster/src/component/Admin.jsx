@@ -35,10 +35,10 @@ function AdminPanel() {
                 return <TaskCreateForm />;
             case "editTask":
                 return <EditTaskForm />;
-            case "projects":
-                return <ProjectEditForm />
             case "createProject":
                 return <ProjectForm />
+            case "editProject":
+                return <ProjectEditForm />
             default:
                 return <Dashboard />;
         }
@@ -55,8 +55,8 @@ function AdminPanel() {
                     <li className={activeTab === "editUser" ? "active" : ""} onClick={() => setActiveTab("editUser")}><ManageAccountsIcon /> Edit User</li>
                     <li className={activeTab === "createTask" ? "active" : ""} onClick={() => setActiveTab("createTask")}><AddTaskOutlinedIcon /> Create Task</li>
                     <li className={activeTab === "editTask" ? "active" : ""} onClick={() => setActiveTab("editTask")}><CreateOutlinedIcon /> Edit Task</li>
-                    <li className={activeTab === "projects" ? "active" : ""} onClick={() => setActiveTab("projects")}><FolderOutlinedIcon /> Projects</li>
                     <li className={activeTab === "createProject" ? "active" : ""} onClick={() => setActiveTab("createProject")}><CreateNewFolderOutlinedIcon /> Create Project</li>
+                    <li className={activeTab === "editProject" ? "active" : ""} onClick={() => setActiveTab("editProject")}><FolderOutlinedIcon /> Edit Project</li>
                 </ul>
             </div>
 
