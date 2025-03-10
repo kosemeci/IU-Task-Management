@@ -4,7 +4,6 @@
     min-height: 100vh;
     background-color: #f4f4f4;
     flex-direction: row;
-    /* Standartta yatay düzen */
 }
 
 /* Sidebar */
@@ -108,14 +107,14 @@
 
 /* Focus Efekti */
 .form-input:focus {
-    border-color: #3498db;
+    border-color: #36D6BB;
     outline: none;
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
 }
 
 /* Buton Stili */
 .submit-button {
-    background-color: #3498db;
+    background-color: #36D6BB;
     color: white;
     padding: 10px;
     border: none;
@@ -128,7 +127,7 @@
 }
 
 .submit-button:hover {
-    background-color: #2980b9;
+    background-color: #1e8574;
 }
 
 /* Responsive - Küçük Ekranlar İçin */
@@ -155,7 +154,6 @@
     }
 }
 
-/* Responsive - Mobil Ekranlar İçin (600px altı) */
 @media (max-width: 600px) {
 
     .admin-sidebar ul li {

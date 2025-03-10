@@ -78,10 +78,16 @@ const Dashboard = () => {
     return (
         <Box sx={{ p: 3 }}>
             <FormControl fullWidth sx={{ mb: 3 }}>
-                <InputLabel>{selectedProject ? 'Proje Seç' : 'Genel İstatistikler'}</InputLabel>
+                <InputLabel sx={{ "&.Mui-focused": { color: "#36D6BB" } }} >{selectedProject ? 'Proje Seç' : 'Genel İstatistikler'}</InputLabel>
                 <Select
                     value={selectedProject ? selectedProject.id : ""}
                     onChange={handleProjectChange}
+                    sx={{
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#36D6BB",
+                            borderWidth: "1px"
+                        }
+                    }}
                 >
                     <MenuItem value="0" onClick={handleGeneralStats}>Genel İstatistikler</MenuItem>
                     {projects.map((project) => (

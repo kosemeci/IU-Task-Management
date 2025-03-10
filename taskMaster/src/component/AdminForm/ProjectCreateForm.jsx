@@ -1,12 +1,15 @@
 import { useState } from "react";
 import '../../css/admin.css';
 import axios from "axios";
+import AlertMessage from "../AlertMessage";
 
 function ProjectForm() {
     const [project, setProject] = useState({
         name: "",
         description: ""
     });
+    const [alertMessage, setAlertMessage] = useState("");
+    const [alertType, setAlertType] = useState("secondary")
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,17 +21,24 @@ function ProjectForm() {
                 withCredentials: true,
                 timeout: 25000
             })
-            // console.log(response.data);
+            setAlertMessage("New Project created successfully.");
+            setAlertType("success");
+            setTimeout(() => {
+                setAlertMessage("");
+            }, 3000);
+
         } catch (error) {
             console.error("Error creating project:", error.response?.data || error.message);
+            setAlertType("error");
+            setAlertMessage("An error occured while creating the project.")
         }
-        // console.log("New Project:", project);
         setProject({ name: "", description: "" });
     };
 
     return (
         <div className="form-container">
             <h2 className="form-title"> Create New Project</h2>
+            <AlertMessage message={alertMessage} onClose={() => setAlertMessage("")} severity={alertType} />
             <form onSubmit={handleSubmit} className="project-form">
 
                 <div className="form-group">

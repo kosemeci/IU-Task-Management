@@ -63,7 +63,7 @@ const ProjectEditForm = () => {
                 setAlertMessage("");
             }, 3000);
         } catch (error) {
-            setAlertType("success");
+            setAlertType("error");
             setAlertMessage("An error occurred while updating the project.")
             console.log(error);
         }
@@ -72,15 +72,12 @@ const ProjectEditForm = () => {
         fetchProjects();
     };
 
-
-
     const handleChangeSelect = (e) => {
         const selectedId = e.target.value;
         setSelectId(selectedId);
         const currentProject = projects.find((p) => (p.id === selectedId));
         setSelectedProject(currentProject);
     }
-
 
     return (
         <div className="form-container">
@@ -90,12 +87,18 @@ const ProjectEditForm = () => {
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
 
                 <FormControl fullWidth>
-                    <InputLabel>Select Project</InputLabel>
+                    <InputLabel sx={{ "&.Mui-focused": { color: "#36D6BB" } }}>         Select Project
+                    </InputLabel>
                     <Select
                         value={selectId}
                         onChange={(e) => handleChangeSelect(e)}
                         required
-                    >
+                        sx={{
+                            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                borderColor: "#36D6BB",
+                                borderWidth: "1px"
+                            }
+                        }}                  >
                         {projects.map((proj, index) => (
                             <MenuItem key={proj.id} value={proj.id}>
                                 {index + 1} - {proj.name}
@@ -113,6 +116,12 @@ const ProjectEditForm = () => {
                             multiline
                             value={selectedProject.name}
                             onChange={(e) => setSelectedProject({ ...selectedProject, name: e.target.value })}
+                            sx={{
+                                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                    border: "1px solid #36D6BB",
+                                },
+                                "& .MuiInputLabel-root.Mui-focused": { color: "#36D6BB" }
+                            }}
                         />
 
                         < TextField
@@ -123,7 +132,12 @@ const ProjectEditForm = () => {
                             rows={3}
                             value={selectedProject.description}
                             onChange={(e) => setSelectedProject({ ...selectedProject, description: e.target.value })}
-
+                            sx={{
+                                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                    border: "1px solid #36D6BB"
+                                },
+                                "& .MuiInputLabel-root.Mui-focused": { color: "#36D6BB" }
+                            }}
                         />
 
                         <TextField
@@ -148,13 +162,12 @@ const ProjectEditForm = () => {
                             value={selectedProject.taskCount}
                             disabled
                         />
-
                     </>
                 )}
 
-                <Button type="submit" variant="contained" color="primary" fullWidth>
+                <button type="submit" variant="contained" className="submit-button" fullWidth>
                     Edit Project
-                </Button>
+                </button>
             </form>
         </div>
     );
