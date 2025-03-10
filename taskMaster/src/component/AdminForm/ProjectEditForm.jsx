@@ -1,8 +1,9 @@
 import { getAllProject } from "../Api/projects";
 import { useEffect, useState } from "react";
-import { FormControl, InputLabel, MenuItem, Select, TextField, Button } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, TextField, Button, Stack } from "@mui/material";
 import "../../css/admin.css";
 import axios from "axios";
+import Alert from '@mui/material/Alert';
 
 const ProjectEditForm = () => {
     const [projects, setProjects] = useState([]);
@@ -15,6 +16,7 @@ const ProjectEditForm = () => {
         taskCount: "",
         createdDate: ""
     });
+    const [alertMessage, setAlertMessage] = useState(null);
 
     const fetchProjects = async () => {
 
@@ -42,7 +44,7 @@ const ProjectEditForm = () => {
         e.preventDefault();
         // console.log("Selected Project ID:", selectedProject);
         try {
-            const response = await axios.put('http://localhost:8080/project-management/project/update',
+            await axios.put('http://localhost:8080/project-management/project/update',
                 {
                     "id": selectedProject.id,
                     "projectName": selectedProject.name,
@@ -51,7 +53,8 @@ const ProjectEditForm = () => {
                 {
                     withCredentials: true,
                     timeout: 30000
-                })
+                });
+            setAlertMessage({ type: "success", message: "Project updated successfully." })
         } catch (error) {
             console.log(error);
         }
@@ -71,6 +74,12 @@ const ProjectEditForm = () => {
     return (
         <div className="form-container">
             <h2 className="form-title">Update Project</h2>
+
+            {alertMessage && (
+                <Stack sx={{ width: '100%' }} spacing={2}>
+                    <Alert severity={alertMessage.type}>{alertMessage.message}</Alert>
+                </Stack>
+            )}
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
 
                 <FormControl fullWidth>
