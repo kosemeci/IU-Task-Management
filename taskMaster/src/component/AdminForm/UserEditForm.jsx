@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { Button, Stack, TextField } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AlertMessage from '../AlertMessage';
 
 const columns = [
     { id: 'id', label: 'id', minWidth: 20 },
@@ -52,6 +53,8 @@ function StickyHeadTable() {
     const [editingColumn, setEditingColumn] = useState(null);
     const [editedValue, setEditedValue] = useState(null);
     const [editedCells, setEditedCells] = useState({});
+    const [alertMessage, setAlertMessage] = useState("");
+    const [alertType, setAlertType] = useState("secondary")
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -71,7 +74,6 @@ function StickyHeadTable() {
                 withCredentials: true,
                 timeout: 20000
             });
-            // console.log(response.data);
             const sortedUserList = response.data.sort((a, b) => a.id - b.id);
             const userList = sortedUserList.map((user) => (
                 {
@@ -105,11 +107,11 @@ function StickyHeadTable() {
         setRows(rows.map(row => row.id === id ? { ...row, [editingColumn]: editedValue } : row));
         setEditingRow(null);
         setEditingColumn(null);
-
         setEditedCells(prev => ({
             ...prev,
             [id]: { ...(prev[id] || {}), [columnId]: editedValue }
         }));
+
     })
 
     const handleValueChange = (e, row, column) => {
@@ -148,10 +150,21 @@ function StickyHeadTable() {
                     timeout: 30000
                 }
             );
-            // console.log(response.data);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+
+            setAlertMessage("New Task created successfully.")
+            setAlertType("success");
+            setTimeout(() => {
+                setAlertMessage("");
+            }, 3000);
             setEditedCells({});
         } catch (error) {
             console.error('Error updating users:', error);
+            setAlertMessage("An error occured while updating user.")
+            setAlertType("error");
+            setTimeout(() => {
+                setAlertMessage("");
+            }, 3000);
         }
     };
 
@@ -238,6 +251,7 @@ function StickyHeadTable() {
                 <Button variant="contained" color='error' size='small' onClick={() => deleteAllChanges()}>Delete <DeleteIcon style={{ 'marginLeft': '4px', 'fontSize': '16px' }} /> </Button>
                 <Button variant="contained" color='success' size='small' onClick={() => saveAllChanges()}> Save <SaveIcon style={{ 'marginLeft': '4px', 'fontSize': '16px' }} /></Button>
             </Stack>
+            <AlertMessage message={alertMessage} onClose={() => setAlertMessage("")} severity={alertType} />
         </>
     );
 }

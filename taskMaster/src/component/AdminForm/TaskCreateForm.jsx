@@ -3,6 +3,7 @@ import '../../css/admin.css';
 import axios from "axios";
 import { getAllProject } from "../Api/projects";
 import { useEffect } from "react";
+import AlertMessage from "../AlertMessage";
 
 
 function TaskForm() {
@@ -13,13 +14,14 @@ function TaskForm() {
         deadline: "",
         project: "",
     });
-    const [projects, setProjects] = useState([])
+    const [projects, setProjects] = useState([]);
+    const [alertMessage, setAlertMessage] = useState("");
+    const [alertType, setAlertType] = useState("success");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log(task);
         try {
-            const response = await axios.post('http://localhost:8080/task-management/task/create', {
+            await axios.post('http://localhost:8080/task-management/task/create', {
                 "taskTitle": task.taskTitle,
                 "priority": task.priority,
                 "description": task.description,
@@ -29,10 +31,21 @@ function TaskForm() {
                 withCredentials: true,
                 timeout: 3000,
             })
-            // console.log(response.data)
+            window.scrollTo({ top: 0, behavior: "smooth" });
+
+            setAlertMessage("New Task created successfully.")
+            setAlertType("success");
+            setTimeout(() => {
+                setAlertMessage("");
+            }, 3000);
             setTask({ taskTitle: "", priority: "LOW", description: "", deadline: "", project: "" });
         } catch (error) {
             console.log(error);
+            setAlertMessage("An error occured while creating new task.")
+            setAlertType("error");
+            setTimeout(() => {
+                setAlertMessage("");
+            }, 3000);
         }
     };
 
@@ -43,14 +56,13 @@ function TaskForm() {
                 const filteredProject = response.map((data) => ({
                     "id": data.id,
                     "title": data.projectName
-                })).sort((a, b) => a.id - b.id);
+                }));
                 setProjects(filteredProject);
             } catch (error) {
                 console.log(error);
             }
         }
         getProjectList();
-
     }, [])
 
     return (
@@ -126,6 +138,7 @@ function TaskForm() {
                     Save
                 </button>
             </form>
+            <AlertMessage message={alertMessage} onClose={() => setAlertMessage("")} severity={alertType} />
         </div>
     );
 }

@@ -9,7 +9,7 @@ function ProjectForm() {
         description: ""
     });
     const [alertMessage, setAlertMessage] = useState("");
-    const [alertType, setAlertType] = useState("secondary")
+    const [alertType, setAlertType] = useState("success")
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,16 +21,20 @@ function ProjectForm() {
                 withCredentials: true,
                 timeout: 25000
             })
+            window.scrollTo({ top: 0, behavior: "smooth" });
+
             setAlertMessage("New Project created successfully.");
             setAlertType("success");
             setTimeout(() => {
                 setAlertMessage("");
             }, 3000);
-
         } catch (error) {
             console.error("Error creating project:", error.response?.data || error.message);
             setAlertType("error");
             setAlertMessage("An error occured while creating the project.")
+            setTimeout(() => {
+                setAlertMessage("");
+            }, 3000);
         }
         setProject({ name: "", description: "" });
     };
@@ -38,7 +42,6 @@ function ProjectForm() {
     return (
         <div className="form-container">
             <h2 className="form-title"> Create New Project</h2>
-            <AlertMessage message={alertMessage} onClose={() => setAlertMessage("")} severity={alertType} />
             <form onSubmit={handleSubmit} className="project-form">
 
                 <div className="form-group">
@@ -70,6 +73,7 @@ function ProjectForm() {
                 </button>
 
             </form>
+            <AlertMessage message={alertMessage} onClose={() => setAlertMessage("")} severity={alertType} />
         </div>
     );
 }

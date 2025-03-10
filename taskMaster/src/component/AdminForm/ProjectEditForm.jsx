@@ -66,6 +66,9 @@ const ProjectEditForm = () => {
             setAlertType("error");
             setAlertMessage("An error occurred while updating the project.")
             console.log(error);
+            setTimeout(() => {
+                setAlertMessage("");
+            }, 3000);
         }
         setSelectedProject({});
         setSelectId("");
@@ -82,8 +85,6 @@ const ProjectEditForm = () => {
     return (
         <div className="form-container">
             <h2 className="form-title">Update Project</h2>
-
-            <AlertMessage message={alertMessage} onClose={() => setAlertMessage("")} severity={alertType} />
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
 
                 <FormControl fullWidth>
@@ -169,6 +170,7 @@ const ProjectEditForm = () => {
                     Edit Project
                 </button>
             </form>
+            <AlertMessage message={alertMessage} onClose={() => setAlertMessage("")} severity={alertType} />
         </div>
     );
 };

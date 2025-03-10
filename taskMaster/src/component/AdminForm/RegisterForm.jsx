@@ -1,8 +1,11 @@
 import { useState } from "react";
 import '../../css/admin.css';
 import axios from "axios";
+import AlertMessage from "../AlertMessage";
 
 function UserForm() {
+    const [alertMessage, setAlertMessage] = useState("");
+    const [alertType, setAlertType] = useState("success");
     const [userData, setUserData] = useState({
         firstName: "",
         lastName: "",
@@ -26,7 +29,7 @@ function UserForm() {
         userData.email = `${userData.firstName.slice(0, 1)}_${userData.lastName.toLowerCase()}@tms.com`
         userData.password = "Tms.1234"
         try {
-            const response = await axios.post('http://localhost:8080/auth/register',
+            await axios.post('http://localhost:8080/auth/register',
                 {
                     firstName: userData.firstName,
                     lastName: userData.lastName,
@@ -44,9 +47,20 @@ function UserForm() {
                     timeout: 25000
                 }
             );
-            // console.log(response.data)
+            window.scrollTo({ top: 0, behavior: "smooth" });
+
+            setAlertMessage("New User created successfully.")
+            setAlertType("success");
+            setTimeout(() => {
+                setAlertMessage("");
+            }, 3000);
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            setAlertMessage("An error occured while creating new user.")
+            setAlertType("error");
+            setTimeout(() => {
+                setAlertMessage("");
+            }, 3000);
         }
     };
 
@@ -128,6 +142,7 @@ function UserForm() {
                     Save
                 </button>
             </form>
+            <AlertMessage message={alertMessage} onClose={() => setAlertMessage("")} severity={alertType} />
         </div>
     );
 }
