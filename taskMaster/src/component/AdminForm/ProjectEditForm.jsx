@@ -17,6 +17,7 @@ const ProjectEditForm = () => {
     });
 
     const fetchProjects = async () => {
+
         try {
             const response = await getAllProject();
             const projectList = response.map((res) => ({
@@ -25,7 +26,7 @@ const ProjectEditForm = () => {
                 description: res.description,
                 progress: res.completionPercentage,
                 createdDate: res.createdDate,
-                taskCount: res.task.length,
+                taskCount: res.task?.length || 0,
             }));
             setProjects(projectList);
         } catch (error) {
@@ -51,15 +52,15 @@ const ProjectEditForm = () => {
                     withCredentials: true,
                     timeout: 30000
                 })
-            console.log(response.data);
         } catch (error) {
             console.log(error);
         }
         setSelectedProject({});
+        setSelectId("");
+        fetchProjects();
     };
 
     const handleChangeSelect = (e) => {
-        e.preventDefault();
         const selectedId = e.target.value;
         setSelectId(selectedId);
         const currentProject = projects.find((p) => (p.id === selectedId));
