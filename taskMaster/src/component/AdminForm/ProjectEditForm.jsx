@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select, TextField, Button, Stack } from "@mui/material";
 import "../../css/admin.css";
 import axios from "axios";
-import Alert from '@mui/material/Alert';
+import AlertMessage from "../AlertMessage";
 
 const ProjectEditForm = () => {
     const [projects, setProjects] = useState([]);
@@ -16,7 +16,8 @@ const ProjectEditForm = () => {
         taskCount: "",
         createdDate: ""
     });
-    const [alertMessage, setAlertMessage] = useState(null);
+    const [alertMessage, setAlertMessage] = useState("");
+    const [alertType, setAlertType] = useState("success");
 
     const fetchProjects = async () => {
 
@@ -42,7 +43,6 @@ const ProjectEditForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log("Selected Project ID:", selectedProject);
         try {
             await axios.put('http://localhost:8080/project-management/project/update',
                 {
@@ -54,14 +54,25 @@ const ProjectEditForm = () => {
                     withCredentials: true,
                     timeout: 30000
                 });
-            setAlertMessage({ type: "success", message: "Project updated successfully." })
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+
+            setAlertMessage("Project updated successfully.")
+            setAlertType("success");
+            setTimeout(() => {
+                setAlertMessage("");
+            }, 3000);
         } catch (error) {
+            setAlertType("success");
+            setAlertMessage("An error occurred while updating the project.")
             console.log(error);
         }
         setSelectedProject({});
         setSelectId("");
         fetchProjects();
     };
+
+
 
     const handleChangeSelect = (e) => {
         const selectedId = e.target.value;
@@ -75,11 +86,7 @@ const ProjectEditForm = () => {
         <div className="form-container">
             <h2 className="form-title">Update Project</h2>
 
-            {alertMessage && (
-                <Stack sx={{ width: '100%' }} spacing={2}>
-                    <Alert severity={alertMessage.type}>{alertMessage.message}</Alert>
-                </Stack>
-            )}
+            <AlertMessage message={alertMessage} onClose={() => setAlertMessage("")} severity={alertType} />
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
 
                 <FormControl fullWidth>
