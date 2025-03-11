@@ -1,10 +1,10 @@
 import React from 'react'
-import '../css/header.css'
+import '../../css/header.css'
 import CasesOutlinedIcon from '@mui/icons-material/CasesOutlined'; import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
 import { useState } from 'react';
 import Sidebar from './Sidebar';

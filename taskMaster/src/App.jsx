@@ -1,5 +1,5 @@
 import './App.css';
-import Header from './component/Header';
+import Header from './component/layout/Header';
 import UserPage from './component/User';
 import HomePage from './component/Home';
 import TaskPage from './component/Task';

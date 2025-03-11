@@ -3,7 +3,7 @@ import '../../css/admin.css';
 import axios from "axios";
 import { getAllProject } from "../Api/projects";
 import { useEffect } from "react";
-import AlertMessage from "../AlertMessage";
+import AlertMessage from "../common/AlertMessage";
 
 
 function TaskForm() {

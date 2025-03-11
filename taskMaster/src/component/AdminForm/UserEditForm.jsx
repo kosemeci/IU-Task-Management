@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import { Button, Stack, TextField } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AlertMessage from '../AlertMessage';
+import AlertMessage from '../common/AlertMessage';
 
 const columns = [
     { id: 'id', label: 'id', minWidth: 20 },

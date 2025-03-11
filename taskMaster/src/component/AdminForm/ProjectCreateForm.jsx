@@ -1,7 +1,7 @@
 import { useState } from "react";
 import '../../css/admin.css';
 import axios from "axios";
-import AlertMessage from "../AlertMessage";
+import AlertMessage from "../common/AlertMessage";
 
 function ProjectForm() {
     const [project, setProject] = useState({

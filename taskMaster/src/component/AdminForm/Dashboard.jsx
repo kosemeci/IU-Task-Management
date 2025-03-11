@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { Box, Card, CardContent, Typography, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import { Group, AdminPanelSettings, List, Business } from "@mui/icons-material";
 import PiChartNeedle from "../Rechart/PiChartNeedle";
-import AnimatedNumber from "./AnimatedNumber";
+import AnimatedNumber from "../common/AnimatedNumber";
+import LoadingSpinner from "../common/LoadingSpinner";
 import BarCharts from "../Rechart/BarCharts";
 import { getAllProject } from "../Api/projects";
 import { getProjectStatistics, getProjectGeneralStatistics } from "../Api/ProjectStatistics";
-import LoadingSpinner from "../LoadingSpinner";
 
 const Dashboard = () => {
     const [selectedProject, setSelectedProject] = useState(null);

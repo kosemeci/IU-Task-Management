@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select, TextField, Button, Stack } from "@mui/material";
 import "../../css/admin.css";
 import axios from "axios";
-import AlertMessage from "../AlertMessage";
+import AlertMessage from "../common/AlertMessage";
 
 const ProjectEditForm = () => {
     const [projects, setProjects] = useState([]);
