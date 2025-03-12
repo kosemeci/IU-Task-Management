@@ -26,8 +26,8 @@ function Header() {
         else { handleNavigate('/user') }
     }
 
-    const toggleMenu = (newOpen) => () => {
-        setOpen(newOpen);
+    const toggleMenu = () => {
+        setOpen(!open);
     };
 
     return (
@@ -39,7 +39,7 @@ function Header() {
                         onClick={() => handleNavigate('/task')} />
                     <NotificationsNoneIcon className='header-icon' onClick={() => handleNavigate('/notification')} />
                     <PermIdentityIcon className='header-icon' onClick={() => handleNavigateByRole()} />
-                    <MenuOutlinedIcon className='header-icon' onClick={toggleMenu(true)} />
+                    <MenuOutlinedIcon className='header-icon' onClick={toggleMenu} />
                     {<Sidebar open={open} toggleMenu={toggleMenu} />}
                 </div>
             </div>

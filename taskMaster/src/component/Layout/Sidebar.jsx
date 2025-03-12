@@ -11,10 +11,10 @@ import { useNavigate } from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
 
 const menuItems = [
-    { icon: <HomeIcon sx={{ pr: '10px', color: 'black' }} />, text: 'Main Page' },
-    { icon: <AssignmentIcon sx={{ pr: '10px', color: 'green' }} />, text: 'Tasks' },
-    { icon: <AccountCircleIcon sx={{ pr: '10px', color: 'purple' }} />, text: 'My Info' },
-    { icon: <SettingsIcon sx={{ pr: '10px', color: 'gray' }} />, text: 'Settings' },
+    { icon: <HomeIcon sx={{ pr: '10px', color: 'black' }} />, text: 'Main Page', nav: "/" },
+    { icon: <AssignmentIcon sx={{ pr: '10px', color: 'green' }} />, text: 'Tasks', nav: "/task" },
+    { icon: <AccountCircleIcon sx={{ pr: '10px', color: 'purple' }} />, text: 'My Info', nav: "/user" },
+    { icon: <SettingsIcon sx={{ pr: '10px', color: 'gray' }} />, text: 'Settings', nav: "/settings" },
 ];
 
 const listItemStyles = {
@@ -36,8 +36,8 @@ function Sidebar({ open, toggleMenu }) {
                             <ListItem
                                 sx={listItemStyles}
                                 onClick={() => {
-                                    navigate(`/${item.text.toLowerCase().replace(" ", "")}`);
                                     toggleMenu(false);
+                                    navigate(item.nav);
                                 }}>
                                 {item.icon} {item.text}
                             </ListItem>
@@ -70,7 +70,6 @@ function Sidebar({ open, toggleMenu }) {
                 )}
             </Box>
         </Drawer>
-
     );
 }
 
