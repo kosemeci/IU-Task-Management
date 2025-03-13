@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
-import '../css/task.css'
+import '../../css/admin.css'
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 
 function FilterTask({ onFilterChange }) {
@@ -21,7 +21,6 @@ function FilterTask({ onFilterChange }) {
         if (selectedFilter && inputFilter)
             onFilterChange(selectedFilter, inputFilter);
     }
-
 
     return (
         <div className='table-filter'>

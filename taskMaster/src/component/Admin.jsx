@@ -3,7 +3,7 @@ import TaskCreateForm from "./AdminForm/TaskCreateForm";
 import RegisterForm from "./AdminForm/RegisterForm";
 import ProjectForm from "./AdminForm/ProjectCreateForm";
 import Dashboard from "./AdminForm/Dashboard";
-import EditTaskForm from "./TableTask"
+import EditTaskForm from "./TaskUtils/TableTask"
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';

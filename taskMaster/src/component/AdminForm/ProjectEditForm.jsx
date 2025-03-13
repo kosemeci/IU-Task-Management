@@ -87,7 +87,7 @@ const ProjectEditForm = () => {
             <h2 className="form-title">Update Project</h2>
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
 
-                <FormControl fullWidth>
+                <FormControl >
                     <InputLabel sx={{ "&.Mui-focused": { color: "#36D6BB" } }}>         Select Project
                     </InputLabel>
                     <Select
@@ -113,7 +113,6 @@ const ProjectEditForm = () => {
                         <TextField
                             label="Project Name"
                             variant="outlined"
-                            fullWidth
                             multiline
                             value={selectedProject.name}
                             onChange={(e) => setSelectedProject({ ...selectedProject, name: e.target.value })}
@@ -128,7 +127,6 @@ const ProjectEditForm = () => {
                         < TextField
                             label="Project Description"
                             variant="outlined"
-                            fullWidth
                             multiline
                             rows={3}
                             value={selectedProject.description}
@@ -144,14 +142,12 @@ const ProjectEditForm = () => {
                         <TextField
                             label="Created Date"
                             variant="outlined"
-                            fullWidth
                             value={selectedProject.createdDate}
                             disabled
                         />
                         <TextField
                             label="Progress %"
                             variant="outlined"
-                            fullWidth
                             type="number"
                             value={selectedProject.progress}
                             disabled
@@ -159,7 +155,6 @@ const ProjectEditForm = () => {
                         <TextField
                             label="Task Count"
                             variant="outlined"
-                            fullWidth
                             value={selectedProject.taskCount}
                             disabled
                         />

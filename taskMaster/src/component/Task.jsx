@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../css/task.css'
-import CollapsibleTable from './TableTask';
-import FilterTask from './FilterTask';
+import CollapsibleTable from './TaskUtils/TableTask';
+import FilterTask from './TaskUtils/FilterTask';
 
 
 function Task() {

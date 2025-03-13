@@ -1,33 +1,26 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import '../css/table.css'
-import { useState, useEffect } from 'react';
+import '../../css/table.css'
+import { useState } from 'react';
 import axios from 'axios'
 import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import { Divider } from '@mui/material';
 
-
-const BASE_URL = "http://localhost:8080/task-management/task/all";
-
+const BASE_URL = "http://localhost:8080/task-management/task";
 function Row(props) {
-    const { row, getTaskList } = props;
-    const [open, setOpen] = React.useState(false);
+    const { row, getTaskList, onAlert } = props;
     const { mail, role } = useContext(AuthContext);
-
+    const [open, setOpen] = useState(false);
 
     const renderTaskAction = (status, taskId, taskOwnerMail) => {
         if (mail == taskOwnerMail) {
@@ -62,22 +55,34 @@ function Row(props) {
             case 'IN_PROGRESS':
                 return (
                     <>
-                        <button className="task-button">Extend Time</button>
-                        <button className="task-button">Cancel</button>
+                        <button className="task-button" onClick={() => extendTimeTask(taskId)}>Extend Time</button>
+                        <button className="task-button" onClick={() => cancelTask(taskId)}>Cancel </button>
+                        <button className="task-button" onClick={() => deleteTask(taskId)}>Delete </button>
                     </>
                 );
             case 'COMPLETED':
                 return <p>*Görev başarıyla sonuçlandı.</p>
             case 'FAILED':
-                return <button className="task-button">Extend Time</button>;
+                return (
+                    <>
+                        <button className="task-button" onClick={() => extendTimeTask(taskId)}>Extend Time</button>
+                        <button className="task-button" onClick={() => deleteTask(taskId)}>Delete</button>
+                    </>
+                )
             case 'CANCELLED':
-                return <p>*Görev iptal edildi.</p>
+                return (
+                    <>
+                        <p>*Görev iptal edildi.</p>
+                        <button className="task-button" onClick={() => deleteTask(taskId)}>Delete</button>
+                    </>
+                )
             default:
                 return (
                     <>
-                        <button className="task-button">Extend Time</button>
-                        <button className="task-button">Assign Task</button>
-                        <button className="task-button">Cancel</button>
+                        <button className="task-button" onClick={() => extendTimeTask(taskId)}>Extend Time</button>
+                        <button className="task-button" onClick={() => assingTask(taskId)}>Assign Task</button>
+                        <button className="task-button" onClick={() => cancelTask(taskId)}>Cancel</button>
+                        <button className="task-button" onClick={() => deleteTask(taskId)}>Delete</button>
                     </>
                 );
         }
@@ -121,8 +126,23 @@ function Row(props) {
         }
     }
 
+    const deleteTask = async (taskId) => {
+        try {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            await axios.delete(`${BASE_URL}/delete/${taskId}`, {
+                withCredentials: true,
+                timeout: 20000
+            })
+            getTaskList();
+            onAlert('The Task has been deleted successfully.', 'success');
+
+        } catch (error) {
+            onAlert('An error occured while deleting the task.', 'error');
+        }
+    }
+
     return (
-        <React.Fragment>
+        <>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}
                 style={{ cursor: 'pointer' }} onClick={() => setOpen(!open)}
 
@@ -188,137 +208,8 @@ function Row(props) {
                     </Collapse>
                 </TableCell>
             </TableRow>
-        </React.Fragment >
+        </>
     );
 }
 
-export default function CollapsibleTable({ filterCriteria, filterValue }) {
-    const [taskList, setTaskList] = useState([]);
-    const [orderSelect, setOrderSelect] = useState('id');
-    const [allTasks, setAllTasks] = useState([]);
-    const { userId } = useContext(AuthContext);
-    const navigate = useNavigate('');
-
-    const getTaskList = async () => {
-        try {
-            if (!userId) navigate('/login'); // userId yoksa API isteği yapma
-
-            const response = await axios.get(BASE_URL, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                withCredentials: true,
-                timeout: 10000
-            });
-            console.log(response.data);
-            const sortedData = response.data.sort((a, b) => a.id - b.id);
-            setTaskList(sortedData);
-            setAllTasks(sortedData);
-            return sortedData;
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    useEffect(() => {
-        getTaskList();
-    }, [])
-
-    const sortedList = (param) => {
-        setOrderSelect(param);
-    };
-
-    useEffect(() => {
-        setTaskList((prevList) =>
-            [...prevList].sort((a, b) =>
-                typeof a[orderSelect] === "string"
-                    ? a[orderSelect].localeCompare(b[orderSelect])
-                    : a[orderSelect] - b[orderSelect]
-            )
-        );
-    }, [orderSelect]);
-
-    const filterDataByCriteria = (task, filterCriteria, filterValue) => {
-        const value = String(task[filterCriteria]).toLowerCase();
-        return value.includes(filterValue.toLowerCase());
-    };
-    const filterByUserProperty = (task, property, filterValue) => {
-        if (task.user && task.user[property]) {
-            return String(task.user[property]).toLowerCase().includes(filterValue.toLowerCase());
-        }
-        return false;
-    };
-    const filterByUserFullName = (task, filterValue) => {
-        if (task.user) {
-            const fullName = `${task.user.firstName} ${task.user.lastName}`.toLowerCase();
-            return fullName.includes(filterValue.toLowerCase());
-        }
-        return false;
-    };
-
-    useEffect(() => {
-        //filtrelemeye göre task listesini güncelliyoruz
-        // console.log(filterCriteria);
-        // console.log(filterValue)
-        if (!filterCriteria || !filterValue) {
-            setTaskList(allTasks);
-        } else {
-            let filteredData;
-
-            switch (filterCriteria) {
-                case 'id':
-                    filteredData = allTasks.filter(task => {
-                        return String(task[filterCriteria]) === filterValue;
-                    });
-                    break;
-                case 'project_id':
-                    filteredData = allTasks.filter(task => {
-                        return String(task.project.id) === filterValue;
-                    });
-                    break;
-                case 'username':
-                    filteredData = allTasks.filter(task => filterByUserFullName(task, filterValue));
-                    break;
-                case 'mailAdress':
-                    filteredData = allTasks.filter(task => filterByUserProperty(task, 'mailAdress', filterValue));
-                    break;
-                default:
-                    filteredData = allTasks.filter(task => filterDataByCriteria(task, filterCriteria, filterValue));
-                    break;
-            }
-
-            setTaskList(filteredData);
-        }
-    }, [filterCriteria, filterValue, allTasks])
-
-
-    return (
-        <TableContainer component={Paper} >
-            <Table aria-label="collapsible table" sx={{ backgroundColor: '#fbf9f9' }} >
-                <TableHead>
-                    <TableRow className='order-table-row' onClick={(e) => sortedList(e.target.dataset.param)}>
-                        <TableCell />
-                        <TableCell style={{ textDecoration: orderSelect === 'id' ? "underline" : "none", cursor: "pointer" }}
-                            data-param="id">ID</TableCell>
-                        <TableCell style={{ textDecoration: orderSelect === 'taskTitle' ? "underline" : "none", cursor: "pointer" }}
-                            data-param="taskTitle">Title</TableCell>
-                        <TableCell style={{ textDecoration: orderSelect === 'createdDate' ? "underline" : "none", cursor: "pointer" }}
-                            data-param="createdDate">Created Date</TableCell>
-                        <TableCell style={{ textDecoration: orderSelect === 'deadline' ? "underline" : "none", cursor: "pointer" }}
-                            data-param="deadline">Deadline</TableCell>
-                        <TableCell style={{ textDecoration: orderSelect === 'status' ? "underline" : "none", cursor: "pointer" }}
-                            data-param="status">Status</TableCell>
-                        <TableCell >User</TableCell>
-                        <TableCell >Project ID</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {taskList.map((row) => (
-                        <Row key={row.id} row={row} getTaskList={getTaskList} >
-                        </Row>
-
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    );
-}
+export default Row;
