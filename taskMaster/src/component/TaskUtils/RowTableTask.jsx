@@ -135,9 +135,24 @@ function Row(props) {
             })
             getTaskList();
             onAlert('The Task has been deleted successfully.', 'success');
-
         } catch (error) {
             onAlert('An error occured while deleting the task.', 'error');
+        }
+    }
+
+    const cancelTask = async (taskId) => {
+        try {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            await axios.put(`${BASE_URL}/cancel/${taskId}`,
+                {},
+                {
+                    withCredentials: true,
+                    timeout: 20000
+                })
+            getTaskList();
+            onAlert('The Task has been canceled successfully.', 'success');
+        } catch (error) {
+            onAlert('An error occured while cancelling the task.', 'error');
         }
     }
 
@@ -145,7 +160,6 @@ function Row(props) {
         <>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}
                 style={{ cursor: 'pointer' }} onClick={() => setOpen(!open)}
-
             >
                 <TableCell style={{ padding: "2px", textAlign: 'center' }}>
                     <IconButton
