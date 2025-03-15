@@ -14,13 +14,32 @@ import { useState } from 'react';
 import axios from 'axios'
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Divider } from '@mui/material';
+import { Divider, Input } from '@mui/material';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 
 const BASE_URL = "http://localhost:8080/task-management/task";
 function Row(props) {
     const { row, getTaskList, onAlert } = props;
     const { mail, role } = useContext(AuthContext);
     const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(new Date().toISOString().split('T')[0]);
+
+
+    const modalStyle = {
+        position: 'absolute',
+        top: '25%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: "max-content",
+        bgcolor: 'background.paper',
+        boxShadow: 24,
+        p: 4,
+    };
+    const [openModal, setOpenModal] = useState(false);
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+
 
     const renderTaskAction = (status, taskId, taskOwnerMail) => {
         if (mail == taskOwnerMail) {
@@ -55,7 +74,7 @@ function Row(props) {
             case 'IN_PROGRESS':
                 return (
                     <>
-                        <button className="task-button" onClick={() => extendTimeTask(taskId)}>Extend Time</button>
+                        <button className="task-button" onClick={handleOpenModal}>Extend Time</button>
                         <button className="task-button" onClick={() => cancelTask(taskId)}>Cancel </button>
                         <button className="task-button" onClick={() => deleteTask(taskId)}>Delete </button>
                     </>
@@ -65,7 +84,7 @@ function Row(props) {
             case 'FAILED':
                 return (
                     <>
-                        <button className="task-button" onClick={() => extendTimeTask(taskId)}>Extend Time</button>
+                        <button className="task-button" onClick={handleOpenModal}>Extend Time</button>
                         <button className="task-button" onClick={() => deleteTask(taskId)}>Delete</button>
                     </>
                 )
@@ -79,7 +98,7 @@ function Row(props) {
             default:
                 return (
                     <>
-                        <button className="task-button" onClick={() => extendTimeTask(taskId)}>Extend Time</button>
+                        <button className="task-button" onClick={handleOpenModal}>Extend Time</button>
                         <button className="task-button" onClick={() => assingTask(taskId)}>Assign Task</button>
                         <button className="task-button" onClick={() => cancelTask(taskId)}>Cancel</button>
                         <button className="task-button" onClick={() => deleteTask(taskId)}>Delete</button>
@@ -156,6 +175,21 @@ function Row(props) {
         }
     }
 
+    const extendTimeTask = async (taskId) => {
+        handleCloseModal();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        try {
+            await axios.put(`${BASE_URL}/update/deadline/${taskId}`,
+                {},
+                { withCredentials: true }
+            )
+            getTaskList();
+            onAlert('The Task has been update deadline successfully.', 'success');
+        } catch (error) {
+            onAlert('An error occured while updating deadline the task.', 'error');
+        }
+    }
+
     return (
         <>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}
@@ -222,6 +256,22 @@ function Row(props) {
                     </Collapse>
                 </TableCell>
             </TableRow>
+            <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={modalStyle}>
+                    <input
+                        type="date"
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        className="form-input"
+                    />
+                    <Button size='small' variant='contained' onClick={() => extendTimeTask(row.id)} >Save</Button>
+                </Box>
+            </Modal>
         </>
     );
 }
