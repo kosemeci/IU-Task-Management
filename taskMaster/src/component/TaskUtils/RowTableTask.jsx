@@ -211,15 +211,17 @@ function Row(props) {
     }
 
     const fetchUsers = async () => {
-        try {
-            const response = await getUsers();
-            const userList = response.map((res) => ({
-                id: res.id,
-                name: res.firstName + " " + res.lastName
-            }))
-            setUser(userList);
-        } catch (error) {
-            console.log(error);
+        if (role == 'ADMIN') {
+            try {
+                const response = await getUsers();
+                const userList = response.map((res) => ({
+                    id: res.id,
+                    name: res.firstName + " " + res.lastName
+                }))
+                setUser(userList);
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 

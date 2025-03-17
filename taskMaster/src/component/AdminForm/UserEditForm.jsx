@@ -146,7 +146,7 @@ function StickyHeadTable() {
             );
             window.scrollTo({ top: 0, behavior: "smooth" });
 
-            setAlertMessage("New Task created successfully.")
+            setAlertMessage("The User updated successfully.")
             setAlertType("success");
             setTimeout(() => {
                 setAlertMessage("");

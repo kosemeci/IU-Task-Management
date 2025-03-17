@@ -35,8 +35,7 @@ const Login = () => {
                     timeout: 15000
                 }
             );
-            console.log(response.data);
-
+            // console.log(response.data);
 
             if (response.data) {
                 const responseUser = await axios.get(

@@ -9,7 +9,7 @@ const BASE_URL = "http://localhost:8080/user-management/user";
 function User() {
 
   const [username, setUsername] = useState('');
-  const [title, setTitle] = useState('Bilgilerim');
+  // const [title, setTitle] = useState('Bilgilerim');
   const [selectTitle, setSelectTitle] = useState(1);
   const { userId, role } = useContext(AuthContext);
   const [user, setUser] = useState(null);
@@ -20,14 +20,10 @@ function User() {
       if (!userId) navigate('/login'); // userId yoksa API isteği yapma
 
       const response = await axios.get(`${BASE_URL}/${userId}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
         withCredentials: true,
         timeout: 30000
       });
       const userData = response.data.data;
-      console.log(userData)
       setUser(userData);
       setUsername(`${userData.firstName} ${userData.lastName}`);
     } catch (error) {
@@ -40,9 +36,8 @@ function User() {
   }, [userId])
 
   const chanceTitle = (newTitle, index) => {
-    setTitle(newTitle);
+    // setTitle(newTitle);
     setSelectTitle(index);
-    console.log(user);
   }
 
   const renderPage = (number) => {
