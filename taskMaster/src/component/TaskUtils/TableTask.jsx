@@ -6,7 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import '../../css/table.css'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios'
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
@@ -31,16 +31,11 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
             if (!userId) navigate('/login');
 
             const response = await axios.get(`${BASE_URL}/all`, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
                 withCredentials: true,
                 timeout: 10000
             });
-            const sortedData = response.data.sort((a, b) => a.id - b.id);
-            setTaskList(sortedData);
-            setAllTasks(sortedData);
-            return sortedData;
+            setTaskList(response.data);
+            setAllTasks(response.data);
         } catch (error) {
             console.log(error)
         }
@@ -49,19 +44,14 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
         getTaskList();
     }, [])
 
-    const sortedList = (param) => {
-        setOrderSelect(param);
-    };
-
-    useEffect(() => {
-        setTaskList((prevList) =>
-            [...prevList].sort((a, b) =>
-                typeof a[orderSelect] === "string"
-                    ? a[orderSelect].localeCompare(b[orderSelect])
-                    : a[orderSelect] - b[orderSelect]
-            )
+    //tablodaki başlıklara göre sıralama yapıyoruz
+    const sortedTasks = useMemo(() => {
+        return [...taskList].sort((a, b) =>
+            typeof a[orderSelect] === "string"
+                ? a[orderSelect].localeCompare(b[orderSelect])
+                : a[orderSelect] - b[orderSelect]
         );
-    }, [orderSelect]);
+    }, [taskList, orderSelect]);
 
     const filterDataByCriteria = (task, filterCriteria, filterValue) => {
         const value = String(task[filterCriteria]).toLowerCase();
@@ -81,8 +71,8 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
         return false;
     };
 
+    //filtrelemeye göre task listesini güncelliyoruz
     useEffect(() => {
-        //filtrelemeye göre task listesini güncelliyoruz
         if (!filterCriteria || !filterValue) {
             setTaskList(allTasks);
         } else {
@@ -126,7 +116,7 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
         <TableContainer component={Paper} >
             <Table aria-label="collapsible table" sx={{ backgroundColor: '#fbf9f9' }} >
                 <TableHead>
-                    <TableRow className='order-table-row' onClick={(e) => sortedList(e.target.dataset.param)}>
+                    <TableRow className='order-table-row' onClick={(e) => setOrderSelect(e.target.dataset.param)}>
                         <TableCell />
                         <TableCell style={{ textDecoration: orderSelect === 'id' ? "underline" : "none", cursor: "pointer" }}
                             data-param="id">ID</TableCell>
@@ -143,7 +133,7 @@ export default function CollapsibleTable({ filterCriteria, filterValue }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {taskList.map((row) => (
+                    {sortedTasks.map((row) => (
                         <Row key={row.id} row={row} getTaskList={getTaskList} onAlert={handleAlert}>
                         </Row>
                     ))}
