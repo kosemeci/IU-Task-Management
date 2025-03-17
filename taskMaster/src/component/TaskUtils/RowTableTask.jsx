@@ -10,13 +10,14 @@ import Typography from '@mui/material/Typography';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import '../../css/table.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios'
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { Divider, Input } from '@mui/material';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
+import { getUsers } from '../Api/users'
 
 const BASE_URL = "http://localhost:8080/task-management/task";
 function Row(props) {
@@ -24,7 +25,8 @@ function Row(props) {
     const { mail, role } = useContext(AuthContext);
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(new Date().toISOString().split('T')[0]);
-
+    const [selectedUser, setSelectedUser] = useState("");
+    const [users, setUser] = useState([]);
 
     const modalStyle = {
         position: 'absolute',
@@ -40,6 +42,9 @@ function Row(props) {
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
 
+    const [openAssignTaskModal, setOpenAssignTaskModal] = useState(false);
+    const handleOpenAssignTaskModal = () => setOpenAssignTaskModal(true);
+    const handleCloseAssignTaskModal = () => setOpenAssignTaskModal(false);
 
     const renderTaskAction = (status, taskId, taskOwnerMail) => {
         if (mail == taskOwnerMail) {
@@ -99,7 +104,7 @@ function Row(props) {
                 return (
                     <>
                         <button className="task-button" onClick={handleOpenModal}>Extend Time</button>
-                        <button className="task-button" onClick={() => assingTask(taskId)}>Assign Task</button>
+                        <button className="task-button" onClick={handleOpenAssignTaskModal}>Assign Task</button>
                         <button className="task-button" onClick={() => cancelTask(taskId)}>Cancel</button>
                         <button className="task-button" onClick={() => deleteTask(taskId)}>Delete</button>
                     </>
@@ -161,8 +166,7 @@ function Row(props) {
 
     const cancelTask = async (taskId) => {
         try {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            await axios.put(`${BASE_URL}/cancel/${taskId}`,
+            await axios.put(`${BASE_URL}/cancel?taskId=${taskId}`,
                 {},
                 {
                     withCredentials: true,
@@ -177,9 +181,8 @@ function Row(props) {
 
     const extendTimeTask = async (taskId) => {
         handleCloseModal();
-        window.scrollTo({ top: 0, behavior: "smooth" });
         try {
-            await axios.put(`${BASE_URL}/update/deadline/${taskId}`,
+            await axios.put(`${BASE_URL}/update/deadline?taskId=${taskId}&newDate=${value}`,
                 {},
                 { withCredentials: true }
             )
@@ -189,6 +192,38 @@ function Row(props) {
             onAlert('An error occured while updating deadline the task.', 'error');
         }
     }
+
+    const assignTask = async (taskId, selectedUserId) => {
+        handleCloseAssignTaskModal();
+        console.log(selectedUserId)
+        try {
+            await axios.put(`${BASE_URL}/assign?taskId=${taskId}&userId=${selectedUserId}`,
+                {},
+                { withCredentials: true }
+            )
+            getTaskList();
+            onAlert('The Task has been assigned user successfully.', 'success');
+        } catch (error) {
+            onAlert('An error occured while assigning user the task.', 'error');
+        }
+    }
+
+    const fetchUsers = async () => {
+        try {
+            const response = await getUsers();
+            const userList = response.map((res) => ({
+                id: res.id,
+                name: res.firstName + " " + res.lastName
+            }))
+            setUser(userList);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchUsers();
+    }, [])
 
     return (
         <>
@@ -272,6 +307,29 @@ function Row(props) {
                     <Button size='small' variant='contained' onClick={() => extendTimeTask(row.id)} >Save</Button>
                 </Box>
             </Modal>
+            <Modal
+                open={openAssignTaskModal}
+                onClose={handleCloseAssignTaskModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={modalStyle}>
+                    <select
+                        value={selectedUser}
+                        onChange={(e) => setSelectedUser(e.target.value)}
+                        className="form-input"
+                    >
+                        <option value="">Select a user</option>
+                        {users.map((user) => (
+                            <option key={user.id} value={user.id}>
+                                {user.name}
+                            </option>
+                        ))}
+                    </select>
+                    <Button size='small' variant='contained' onClick={() => assignTask(row.id, selectedUser)}>Save</Button>
+                </Box>
+            </Modal>
+
         </>
     );
 }

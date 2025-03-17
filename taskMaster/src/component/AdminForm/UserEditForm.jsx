@@ -14,6 +14,7 @@ import { Button, Stack, TextField } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AlertMessage from '../common/AlertMessage';
+import { getUsers } from '../Api/users';
 
 const columns = [
     { id: 'id', label: 'id', minWidth: 20 },
@@ -67,14 +68,7 @@ function StickyHeadTable() {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/user-management/user/all', {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                withCredentials: true,
-                timeout: 20000
-            });
-            const sortedUserList = response.data.sort((a, b) => a.id - b.id);
+            const sortedUserList = await getUsers();
             const userList = sortedUserList.map((user) => (
                 {
                     id: user.id,
