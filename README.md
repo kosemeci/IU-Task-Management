@@ -15,13 +15,17 @@
 ![image](https://github.com/user-attachments/assets/e98638e2-074d-452b-b4df-f866279342b2)
 ![image](https://github.com/user-attachments/assets/1c6eff41-a8a3-449b-926f-b0485f4824fd)
 
-
 /user page 
 ![image](https://github.com/user-attachments/assets/25febc3a-4430-4463-8fa8-5c665fa4e8c9)
-
+![image](https://github.com/user-attachments/assets/9522d4a6-c575-4b15-a6d5-6fc00dc76bbe)
+![image](https://github.com/user-attachments/assets/e7de4a91-5dd7-4442-b6ac-da329913fd65)
 
 /header sidebar 
 ![image](https://github.com/user-attachments/assets/289a0a9c-9455-4f94-b628-579a230caffc)
 
+/task actions
+![image](https://github.com/user-attachments/assets/c569b4a9-6a4e-435c-a93f-7b5703536439)
+![image](https://github.com/user-attachments/assets/def8b604-9079-4ef1-9887-7140bd69013d)
+![image](https://github.com/user-attachments/assets/f6a30ea8-14e2-467a-9cfe-9b934c4b0ec4)
 
 
