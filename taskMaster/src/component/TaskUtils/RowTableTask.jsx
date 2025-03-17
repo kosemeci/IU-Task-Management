@@ -37,6 +37,9 @@ function Row(props) {
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,
+        display: "flex",
+        flexDirection: "column",
+        gap: 2
     };
     const [openModal, setOpenModal] = useState(false);
     const handleOpenModal = () => setOpenModal(true);
@@ -195,7 +198,6 @@ function Row(props) {
 
     const assignTask = async (taskId, selectedUserId) => {
         handleCloseAssignTaskModal();
-        console.log(selectedUserId)
         try {
             await axios.put(`${BASE_URL}/assign?taskId=${taskId}&userId=${selectedUserId}`,
                 {},
@@ -329,7 +331,6 @@ function Row(props) {
                     <Button size='small' variant='contained' onClick={() => assignTask(row.id, selectedUser)}>Save</Button>
                 </Box>
             </Modal>
-
         </>
     );
 }
