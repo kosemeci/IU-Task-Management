@@ -1,0 +1,32 @@
+.header {
+    height: min-content;
+    background-color: rgb(54, 214, 187);
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-title {
+    padding: 15px;
+    margin: 0px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: inline-block;
+    font-size: x-large;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.header-body {
+    display: flex;
+    text-align: center;
+    padding: 15px;
+    margin: 0px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-icon {
+    margin: 0 2px;
+    font-size: 32px !important;
+    cursor: pointer;
+}

@@ -1,0 +1,110 @@
+.user-container {
+    display: flex;
+    padding: 10% 8%;
+    flex-direction: column;
+}
+
+.user-column {
+    text-align: left;
+    display: block;
+}
+
+.user-choose-list ul {
+    margin: 0;
+    list-style-type: none;
+}
+
+.user-choose-list li {
+    padding: 8px;
+    margin-bottom: 6px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.user-choose-list li:hover {
+    background-color: rgb(252, 246, 234);
+    cursor: pointer;
+}
+
+.selectedTitle {
+    background-color: rgb(54, 214, 187);
+    font-weight: bold;
+}
+
+.user-details {
+    height: 100%;
+    border-radius: 4px;
+    padding: 0 10px;
+}
+
+/* Kullanıcı Bilgileri Kartı */
+.user-div {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+    border-left: 5px solid #f0259b;
+    /* Turuncu kenarlık */
+}
+
+.user-div p {
+    font-size: 16px;
+    color: #555;
+    /* Daha yumuşak bir gri */
+    margin: 8px 0;
+}
+
+.user-div strong {
+    color: #2C3E50;
+}
+
+/* Görev Kartları */
+.task-div {
+    background: #ffffff;
+    border-left: 5px solid #f0259b;
+    padding: 5px 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    font-family: 'Arial', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.task-div p {
+    font-size: 15px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.task-div strong {
+    color: #555;
+}
+
+.task-div:hover,
+.user-div:hover {
+    transform: scale(1.02);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+/* Sol Menü (Seçenek Listesi) */
+.user-choose-list {
+    flex: 0 0 30%;
+    max-width: 40%;
+}
+
+/* Sağ İçerik (Detaylar) */
+.user-details {
+    flex: 0 0 60%;
+    max-width: 60%;
+    padding-left: 20px;
+}
